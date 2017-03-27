@@ -8,3 +8,4 @@ composer.lock
 d41d8cd9.env
 composer.lock
 *.sql
+.bat
