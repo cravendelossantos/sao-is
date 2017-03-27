@@ -1,0 +1,5 @@
+To: someone@example.com
+Subject: My subject
+
+First line of text
+Second line of text
