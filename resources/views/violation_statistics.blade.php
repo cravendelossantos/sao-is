@@ -209,7 +209,7 @@
 </div>
   
 
-        <script src="/js/violation-statistics.js"></script>
+  <script src="/js/violation-statistics.js"></script>
         
 
 @endsection

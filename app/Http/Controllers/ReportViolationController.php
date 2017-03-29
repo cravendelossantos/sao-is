@@ -55,9 +55,11 @@ class ReportViolationController extends Controller
 
     public function getViolationReportsTable(Request $request)
     {
-        $violations = ViolationReport::leftJoin('students', 'violation_reports.student_id', '=', 'students.student_no')
+        $violations = ViolationReport::join('students', 'violation_reports.student_id', '=', 'students.student_no')
             ->join('violations', 'violation_reports.violation_id', '=', 'violations.id')
-            ->leftJoin('complainants', 'violation_reports.complainant_id', '=', 'complainants.id_no');
+            ->Join('complainants', 'violation_reports.complainant_id', '=', 'complainants.id_no')
+            ->select(['violation_reports.rv_id' , 'violation_reports.student_id', 'violation_reports.offense_no', 'violation_reports.offense_level', 'violation_reports.date_reported', 'violation_reports.status', 'violations.name', 'violations.description', 'violations..sanction', 'complainants.complainant_name', 'complainants.id_no', 'complainants.position',
+                DB::raw("CONCAT(students.first_name,' ',students.last_name)  AS student_name")]);
         
         return Datatables::of($violations) 
             ->editColumn('offense_level', function($violation){
@@ -70,9 +72,9 @@ class ReportViolationController extends Controller
                 }
                     return $badge;
             })
-            ->editColumn('student_name', function($student){
+         /*   ->editColumn('student_name', function($student){
                 return $student->first_name. " " .$student->last_name;
-            })
+            })*/
             ->editColumn('description', function($violation){
                 return '<p>'. $violation->description .'</p>';
             })
@@ -80,7 +82,7 @@ class ReportViolationController extends Controller
                 return '<p>'. $violation->sanction .'</p>';
             })
             ->editColumn('complainant_details', function($complainant){
-                return '<p>'. $complainant->complainant_name. " (". $complainant->position.')</p>';
+                return '<p>'. $complainant->complainant_name. "<br>".$complainant->id_no. " (". $complainant->position.')</p>';
             })
             ->editColumn('offense_no', function($violation){
                 return '<center>'. $violation->offense_no .'</center>';
@@ -89,13 +91,8 @@ class ReportViolationController extends Controller
                 return '<center><a href="#edit-'.$students->rv_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
                     <a href="#delete-'.$students->rv_id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
             })
-            ->filter(function ($query) use ($request) {
-                if ($request->has('key')){
-                        $query->where('student_id' , 'LIKE' , "%{$request['key']}%")
-                            ->orWhere('rv_id', $request->get('key'))
-                            ->orWhere('first_name', 'LIKE', "%{$request->get('key')}%")
-                            ->orWhere('last_name', 'LIKE', "%{$request->get('key')}%");
-                }
+            ->filterColumn('student_name', function($query, $keyword) {
+                $query->whereRaw("CONCAT(students.first_name,' ',students.last_name) like ?", ["%{$keyword}%"]);
             })
             ->make(true);
     }   

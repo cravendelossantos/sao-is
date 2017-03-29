@@ -281,10 +281,10 @@
 			<div class="ibox-content" id="">
 		
 				<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover dt-responsive dataTable" id="violation-reports-DT">
+						<table class="table table-striped table-bordered table-hover dataTable" id="violation-reports-DT" width="100%">
 
 							<thead>
-
+								
 								<th>Date Committed</th>
 								<th>Violation ID</th>
 								<th>Student No.</th>

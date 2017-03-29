@@ -13,7 +13,7 @@ $(document).ready(function(){
 
 
 
-});
+
 
 function getStats(){
   var v_stats_table = $('.violation-stats-DT').DataTable({
@@ -103,8 +103,15 @@ $('#show_v_stats').click(function (e){
            },
          }).done(function(response){
           var items = (response.data);
+                  var c_data = google.visualization.arrayToDataTable([
+         ['Department', { role: 'annotation' }, 'Number of Students', { role: 'style' }],
+         ['College of Arts and Sciences', 'CAS', items[0].cas, 'red'],      
+         ['College of Arts and Sciences', 'CAS', items[0].coecsa, 'blue'],       
+         ['College of Arts and Sciences', 'CAS', items[0].cithm, 'green'],   
 
-
+       ['College of Arts and Sciences', 'CAS', items[0].cams ,'red'],   
+      ]);
+/*
           var c_data = new google.visualization.DataTable();
           c_data.addColumn('string', 'Department');
           c_data.addColumn({type:'string', role:'annotation'});
@@ -114,7 +121,7 @@ $('#show_v_stats').click(function (e){
             ['College of Engineering, Computer Studies and Architecture', 'COECSA', items[0].coecsa],
             ['College of International Tourism and Hospitality Managemet', 'CITHM', items[0].cithm],
             ['College of Business Administration', 'CBA', items[0].cba],
-            ]);
+            ]);*/
 
 
 
@@ -127,3 +134,4 @@ $('#show_v_stats').click(function (e){
        }
 
      });
+});

@@ -32,6 +32,7 @@ var violation_reports_table = $('#violation-reports-DT').DataTable({
 		url : "/report-violation/reports",
 		type: "POST",
 	},
+
 	"bSort" : true,
 	"bFilter" : true,
 	"order": [[ 0, "desc" ]],
@@ -40,15 +41,15 @@ var violation_reports_table = $('#violation-reports-DT').DataTable({
 	{data : 'date_reported'},
 	{data : 'rv_id'},
 	{data : 'student_id'},
-	{data : 'student_name'},
+	{data: 'student_name', name : 'student_name'},
 	//violation_name
-	{data : 'name'},
-	{data : 'description'},
+	{data : 'name', name : 'violations.name'},
+	{data : 'description', name : 'violations.description'},
 	{data : 'offense_level'},
-	{data : 'action'},
+	 {data: 'action', name: 'action', orderable: false, searchable: false},
 	{data : 'offense_no'},
 	{data : 'sanction'},
-	{data : 'complainant_details'}
+	{data : 'complainant_details', name : 'complainants.complainant_name'}
 
 	],
 	
