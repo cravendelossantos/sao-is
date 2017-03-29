@@ -1,42 +1,45 @@
 
 $(document).ready(function(){
-
 	//Lost and found		
-//table init	
-var lost_and_found_table = $('.lost-and-found-DT').DataTable({
-	"processing": true,
-	"serverSide": true,
-	"ajax": {
-		headers : {
-			'X-CSRF-Token' : $('input[name="_token"]').val()
+	//table init	
+
+	var lost_and_found_table = $('#lost-and-found-DT').DataTable({
+		
+        "responsive": true,
+		"processing": true,
+		"serverSide": true,
+		"ajax": {
+			headers : {
+				'X-CSRF-Token' : $('input[name="_token"]').val()
+			},
+			url : "/lost-and-founds/items/all",
+			type: "POST",
+			data: function (d) {
+
+				d.school_year = $('#school_year').val();
+
+			},
 		},
-		url : "/lost-and-founds/items/all",
-		type: "POST",
-		data: function (d) {
 
-			d.school_year = $('#school_year').val();
-		},
-	},
+		"bSort" : true,
+		"bFilter" : true,
+		"order": [[ 0, "desc" ]],
+		"rowId" : 'id',	
+		"columns" : [
+		{data : 'date_reported'},
+		{data : 'time_reported'},
+		{data : 'item_description'},
+		{data : 'endorser_name'},
+		{data : 'found_at'},
+		{data : 'owner_name'},
+		{data : 'status'},
+		{data : 'date_claimed'},
+		{data : 'claimer_name'},
+		],
 
-	"bSort" : true,
-	"bFilter" : true,
-	"order": [[ 0, "desc" ]],
-	"rowId" : 'id',	
-	"columns" : [
-	{data : 'date_reported'},
-	{data : 'time_reported'},
-	{data : 'item_description'},
-	{data : 'endorser_name'},
-	{data : 'found_at'},
-	{data : 'owner_name'},
-	{data : 'status'},
-	{data : 'date_claimed'},
-	{data : 'claimer_name'},
-	],
+	});
 
-});
 
-});
 
 //Report Item
 $('button#lost_and_found_reportBtn').click(function(e) {
@@ -261,3 +264,4 @@ $('select#sort_by').change(function(e){
 });
 
 //load current month reports
+});

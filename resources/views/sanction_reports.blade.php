@@ -108,18 +108,7 @@
     <button type="button" class="btn btn-primary btn-xs m-l-sm pull-right" id="print">Print</button>
     <button id="save" class="btn btn-primary  btn-xs m-l-sm pull-right" onclick="save()" type="button">Save</button>
     <button id="edit" class="btn btn-primary btn-xs m-l-sm pull-right" onclick="edit()" type="button">Edit</button>
-<!--                             <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
 
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div> -->
                         </div>
                     </div>
 
@@ -189,10 +178,10 @@
             <div class="table-responsive">
 
 
-<!-- 
+
           <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
 
- -->
+
             <br>
             <table class="table table-striped table-bordered table-hover sanctions-DT1 dataTable" id="sanctions-DT1" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px; width: 100%;">
                         <thead>
@@ -212,7 +201,7 @@
 
                       </table>
 
-        <!--   </div> -->
+          </div>
         </div>
         </div>
         </div>
@@ -242,6 +231,7 @@
   </div>
 </div>
 </div>
+
 
 
 

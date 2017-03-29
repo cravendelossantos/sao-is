@@ -3,6 +3,12 @@
 $(document).ready(function(){
 
 
+	
+
+
+});
+
+
 	function getStudentReports(){
 		var sanctions_table = $('#sanctions-DT1').DataTable({
 			"bPaginate" : false,
@@ -44,15 +50,17 @@ $(document).ready(function(){
 	}
 
 
-});
-
 
 
 
   //Sanction
 
 
+$('#sanction_find_student').on('click', function(e) {
+	getStudentReports();
+});
 
+/*
 
   $('#sanction_find_student').on('click', function(e) {
 
@@ -83,7 +91,7 @@ $(document).ready(function(){
   	});
     // $('#report_from').val("Student Number: " + $('#sanction_student_no').val());
     e.preventDefault();
-});
+});*/
 
 
 

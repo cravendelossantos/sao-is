@@ -21,7 +21,7 @@ class ViolationReport extends Model
 
     public static function maxViolationId()
     {
-        $id = ViolationReport::select(DB::raw('max(cast((substring(rv_id, 5)) as UNSIGNED)) as max_id'))->first();
+        $id = ViolationReport::select(DB::raw('max(cast((substring(rv_id, 8)) as UNSIGNED)) as max_id'))->first();
             
             if ($id == null){
                 $id = 'SAO_VR-1';

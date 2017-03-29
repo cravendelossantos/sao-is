@@ -24,8 +24,6 @@
 @endsection
 
 @section('content')
-<link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
-<script src="/js/plugins/clockpicker/clockpicker.js"></script>
 <div class="row">
 
 	<div class="col-md-12 animated fadeInRight">
@@ -279,28 +277,31 @@
 		<div class="ibox-title">
 			<h2>Violation Reports</h2>
 		</div>
+		 
+			<div class="ibox-content" id="">
 		
-			<div class="ibox-content" id="table-content">
 				<div class="table-responsive">
-					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-						
-						<table class="table table-striped table-bordered table-hover violation-reports-DT dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid">
+						<table class="table table-striped table-bordered table-hover dt-responsive dataTable" id="violation-reports-DT">
+
 							<thead>
 
 								<th>Date Committed</th>
+								<th>Violation ID</th>
 								<th>Student No.</th>
 								<th>Student Name</th>
-								<th>Course</th>
-								<th>Violation</th>
+								<th>Violation Name</th>
+								<th>Violation Description</th>
 								<th>Offense Level</th>
-								<th>Offense Number</th>
-								
+								<th>Action</th>
+								<th>Offense No.</th>
+								<th>Sanction</th>
+								<th>Complainant</th>
 
 							</thead>
 
 						</table>
-					</div>
 				</div>
+				
 			</div>
 		</div>
 

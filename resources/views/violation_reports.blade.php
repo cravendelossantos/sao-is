@@ -78,7 +78,7 @@
 
             <div class="form-group">
 
-              <output name="v_reports_range">School Year:</output>
+              <output name="v_reports_range">School Year</output>
                 @if (is_null($current_school_year) || is_null($school_year_selection))
                   <div class="alert alert-danger">
                     School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.

@@ -63,8 +63,14 @@ class SanctionController extends Controller
                 }
                     return $badge;
             })
-            ->editColumn('student_name', function($student){
-                return $student->first_name. " " .$student->last_name;
+            ->editColumn('rv_id', function($data){
+                return '<p>'. $data->rv_id .'</p>';
+            })
+            ->editColumn('offense_no', function($data){
+                return '<center>'. $data->offense_no .'</center>';
+            })
+            ->editColumn('student_details', function($student){
+                return '<p>'. $student->first_name. " " .$student->last_name. ' ('. $student->current_status . ') <br>'. $student->student_no. '<br>' . $student->year_level .' Year / '. $student->course .'</p>';
             })
             ->filter(function ($query) use ($request) {
                 if ($request->has('sanction_student_no') and $request->has('v_reports_offense_level')){

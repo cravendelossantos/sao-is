@@ -18,7 +18,8 @@ $('#report_btn').prop('disabled', true);
 	
 
 //Report violation
-var violation_reports_table = $('.violation-reports-DT').DataTable({
+var violation_reports_table = $('#violation-reports-DT').DataTable({
+	"responsive": true,
 	"processing": true,
 	"serverSide": true,
 	"ajax": {
@@ -32,25 +33,26 @@ var violation_reports_table = $('.violation-reports-DT').DataTable({
 		type: "POST",
 	},
 	"bSort" : true,
-	"bSearch" : true,
 	"bFilter" : true,
 	"order": [[ 0, "desc" ]],
 	"rowId" : 'rv_id',	
 	"columns" : [
 	{data : 'date_reported'},
+	{data : 'rv_id'},
 	{data : 'student_id'},
 	{data : 'student_name'},
-	
-	{data : 'course'},
 	//violation_name
 	{data : 'name'},
+	{data : 'description'},
 	{data : 'offense_level'},
+	{data : 'action'},
 	{data : 'offense_no'},
-	
+	{data : 'sanction'},
+	{data : 'complainant_details'}
 
 	],
 	
-	dom : '<"html5buttons"B>lTgftip',
+/*	dom : '<"html5buttons"B>lTgftip',
 
 	buttons : [{
 		extend : 'csv',
@@ -70,7 +72,7 @@ var violation_reports_table = $('.violation-reports-DT').DataTable({
 			$(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
 		}
 	}]
-
+*/
 });	
 
 });

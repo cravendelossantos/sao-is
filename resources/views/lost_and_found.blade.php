@@ -264,15 +264,8 @@
 </div>
 
 				<div class="table-responsive">
-
-
-
-					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-
-
-
-						<table class="table table-striped table-bordered table-hover lost-and-found-DT dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid">
-
+				
+				<table class="table table-striped table-bordered table-hover dt-responsive dataTable" id="lost-and-found-DT">
 							<thead>
 				<tr><th colspan="10"><center>Claiming Period: Within 60 days from the date of endorsement to SAO</center></th></tr>
 				<tr>
@@ -293,7 +286,7 @@
 
 						</table>
 
-					</div>
+					
 				</div>
 
 			</div>

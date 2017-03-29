@@ -14,7 +14,7 @@ class CreateComplainantsTable extends Migration
     {
         Schema::create('complainants', function (Blueprint $table) {
             $table->string('id_no')->primary()->index();
-            $table->string('name');
+            $table->string('complainant_name');
             $table->enum('position', array('Guard', 'Faculty', 'Student'));
         });
     }

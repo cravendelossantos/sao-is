@@ -47,14 +47,9 @@
           School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.
         </div>
       @else
-        <select name="school_year" id="school_year" class="form-control">
-           
-           <option>{{ $current_school_year }}</option> 
-
-          @foreach ($school_year_selection as $selection)
-            <option>{{ $selection->school_year }}</option>
-          @endforeach
-        </select> 
+       		<output id="school_year1" name="school_year1" class="form-control" autofocus="" 	aria-required="true" >
+				{{ $current_school_year }}
+			</output>
       @endif
         </div>
       </div>

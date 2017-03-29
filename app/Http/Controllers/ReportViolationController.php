@@ -56,8 +56,9 @@ class ReportViolationController extends Controller
     public function getViolationReportsTable(Request $request)
     {
         $violations = ViolationReport::leftJoin('students', 'violation_reports.student_id', '=', 'students.student_no')
-            ->join('violations', 'violation_reports.violation_id', '=', 'violations.id');
-
+            ->join('violations', 'violation_reports.violation_id', '=', 'violations.id')
+            ->leftJoin('complainants', 'violation_reports.complainant_id', '=', 'complainants.id_no');
+        
         return Datatables::of($violations) 
             ->editColumn('offense_level', function($violation){
                 if ($violation->offense_level == "Less Serious"){
@@ -72,6 +73,22 @@ class ReportViolationController extends Controller
             ->editColumn('student_name', function($student){
                 return $student->first_name. " " .$student->last_name;
             })
+            ->editColumn('description', function($violation){
+                return '<p>'. $violation->description .'</p>';
+            })
+            ->editColumn('sanction', function($violation){
+                return '<p>'. $violation->sanction .'</p>';
+            })
+            ->editColumn('complainant_details', function($complainant){
+                return '<p>'. $complainant->complainant_name. " (". $complainant->position.')</p>';
+            })
+            ->editColumn('offense_no', function($violation){
+                return '<center>'. $violation->offense_no .'</center>';
+            })
+            ->addColumn('action', function ($students) {
+                return '<center><a href="#edit-'.$students->rv_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                    <a href="#delete-'.$students->rv_id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
+            })
             ->filter(function ($query) use ($request) {
                 if ($request->has('key')){
                         $query->where('student_id' , 'LIKE' , "%{$request['key']}%")
@@ -80,7 +97,6 @@ class ReportViolationController extends Controller
                             ->orWhere('last_name', 'LIKE', "%{$request->get('key')}%");
                 }
             })
-            ->editColumn('offense_no', '<center> {{ $offense_no }} </center>')
             ->make(true);
     }   
 
@@ -141,7 +157,7 @@ class ReportViolationController extends Controller
            
             $new_complainant_record = new Complainant();
             $new_complainant_record->id_no = $request['complainantId'];
-            $new_complainant_record->name = ucwords($request['complainantName']);
+            $new_complainant_record->complainant_name = ucwords($request['complainantName']);
             $new_complainant_record->position = $request['complainantPosition'];
             $new_complainant_record-> save();
             
@@ -186,7 +202,7 @@ class ReportViolationController extends Controller
         foreach ($data as $key => $value)
         {
             $result[]=[ 'value' => $value->id_no, 
-                        'name' => $value->name, 
+                        'name' => $value->complainant_name, 
                         'position' => $value->position,
                      
                       ];

@@ -21,13 +21,19 @@
 	<!-- jQuery UI -->
 	<script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 
+	<!-- Full Calendar Moment -->
+	<script src="/js/plugins/fullcalendar/moment.min.js"></script>
+
 	@section('css')
 	
 	<!-- CSS Files -->
+	<link src="gviz_tooltip.css" rel="stylesheet">
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
 	<link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
 	<link href="/css/animate.css" rel="stylesheet">
-	<link href="/css/style.css" rel="stylesheet">
+	<link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="{{ url('_asset/css') }}/daterangepicker.css" rel="stylesheet">
 	<link href="/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
 	<link href="/css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'>
 	<link href="/css/weather-icons/weather-icons.min.css" rel="stylesheet">
@@ -37,11 +43,10 @@
 	<link href="/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 	<link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 	<link href="/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
-    <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
 	<link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
 	<link rel="stylesheet" href="/css/datepick/jquery.datepick.css">
 	<link href="/css/note-style.css" rel="stylesheet">
-
+	
 	@show
 
 </head>
@@ -428,7 +433,6 @@
 
 	<!-- Data Tables -->
     <script src="/js/plugins/dataTables/datatables.min.js"></script>
-    <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
 
 	<!-- Idle Timer plugin -->
     <script src="/js/plugins/idle-timer/idle-timer.min.js"></script>
@@ -444,6 +448,8 @@
 	<!-- SUMMERNOTE -->
 	<script src="/js/plugins/summernote/summernote.min.js"></script>
 
+	<!-- iCheck -->
+	<script src="/js/plugins/iCheck/icheck.min.js"></script>
 
 	<!-- Chosen -->
 	<script src="/js/plugins/chosen/chosen.jquery.js"></script>
@@ -454,6 +460,9 @@
 	<script type="text/javascript" src="/js/jquery.datepick.js"></script>
 	<script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
+	<!-- Full Calendar -->
+	<script src="/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+
 	<!-- MENU -->
 	<script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 
@@ -463,12 +472,10 @@
 	<!-- Clock picker -->
 	<script src="/js/plugins/clockpicker/clockpicker.js"></script>
 
-	<!-- Date range use moment.js same as full calendar plugin -->
-	<script src="/js/plugins/fullcalendar/moment.min.js"></script>
-
 	<!-- Date range picker -->
-	<script src="/js/plugins/daterangepicker/daterangepicker.js"></script>
-
+	<!-- <script src="/js/plugins/daterangepicker/daterangepicker.js"></script> -->
+	<script src="{{ url('_asset/js') }}/daterangepicker.js"></script>  
+	
 	<!-- Select2 -->
 	<script src="/js/plugins/select2/select2.full.min.js"></script>
 
@@ -480,7 +487,6 @@
 	<!-- Page Scripts -->
 	<script src="/js/app.js"></script>
 	<script src="/js/home.js"></script>
-	<script src="/js/moment.js"></script>
 	
 	<!-- Register --> 
 	<script src="/js/register.js"></script>

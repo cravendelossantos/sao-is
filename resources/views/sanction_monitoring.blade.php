@@ -79,33 +79,32 @@
 												<i class="fa fa-search"></i>
 											</button> </span>
 									</div>
+
+									<hr>
+
 									<div class="table-responsive">
-										<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+										
 
-											<table class="table table-striped table-bordered table-hover sanctions-DT dataTable" id="sanctions-DT" aria-describedby="DataTables_Table_0_info" role="grid">
+											<table class="table table-striped table-bordered table-hover dt-responsive dataTable" id="sanctions-DT">
 												<thead>
+											
 													<tr>
-														<th colspan="10">
-														<center>
-															Click the row to update its sanction
-														</center></th>
-													</tr>
-													<tr>
-
 														<th>Date Committed</th>
-														<th>Student No.</th>
-														<th>Student Name</th>
 														<th>Violation ID</th>
+														<th>Violation Name</th>
 														<th>Violation Description</th>
 														<th>Offense Level</th>
-														<th>Offense Number</th>
-														<th>Sanction</th>
 														<th>Status</th>
+														<th>Sanction</th>
+														<th>Offense Number</th>
+														<th>Student Information</th>
 													</tr>
+		
+	
 												</thead>
 
 											</table>
-										</div>
+										
 									</div>
 								</form>
 							</div>

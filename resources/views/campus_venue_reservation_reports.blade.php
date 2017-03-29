@@ -93,18 +93,25 @@
           <option value="12">December</option>
         </select>
 
-                  <label>School Year</label>
-          <select name="school_year" id="school_year" class="form-control">
-            @foreach ($schoolyear as $schoolyear)
-            <option>{{$schoolyear->school_year }}</option>
-            @endforeach
+                  
+              <output name="v_reports_range">School Year:</output>
+                @if (is_null($current_school_year) || is_null($school_year_selection))
+                  <div class="alert alert-danger">
+                    School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.
+                  </div>
+                @else
+                  <select name="school_year" id="school_year" class="form-control">
+                    
+                      <option>{{ $current_school_year }}</option>
+                    
 
-            @foreach ($schoolyears as $schoolyear)
-            <option>{{$schoolyear->school_year }}</option>
-            @endforeach
-
-            
-          </select>  
+                    @foreach ($school_year_selection as $selection)
+                      <option>{{ $selection->school_year }}</option>
+                    @endforeach
+                  </select> 
+                @endif
+      
+          
 
       </div>
 
@@ -308,19 +315,7 @@
 
 <script type="text/javascript">
 
-
-  $('#print').click(function(e){
-    $(this).hide();
-    var content = document.getElementById('report_content').innerHTML;
-    document.body.innerHTML = content;
-
-    window.print();
-// window.location.reload();
-
-
-e.preventDefault();
-});
-
+$(document).ready(function(){
 
   $('#show_v_reports').click(function (e){
     e.preventDefault();
@@ -463,14 +458,9 @@ e.preventDefault();
   }
 
 
-
+});
 
 </script>
-<script src="js/inspinia.js"></script>
-
-<!-- SUMMERNOTE -->
-<script src="js/plugins/summernote/summernote.min.js"></script>
-
 
 <script>
 
@@ -506,64 +496,13 @@ e.preventDefault();
   });
 
 
-   var date = new Date();
-   var options = {year: "numeric", month: "long", day: "numeric"};
-   var newdate = date.toLocaleDateString('en-US', options);
-   $('#date').val(newdate);
-   $('#schoolyear').val("S.Y." + $('#school_year').val());
-
-
-
-   $('.summernote').summernote();
-
 
  });
-  var edit = function() {
-    $('.click2edit').summernote({focus: true});
 
-  };
-  var save = function() {
-            var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
-            $('.click2edit').destroy();
-          };
+
         </script>
 
 
-        <style type = "text/css">
-
-
-          .note-codable {
-            display:none;
-          }
-          .note-help {
-            display:none;
-          }
-          .note-insert {
-            display:none;
-          }
-          .note-view {
-            display:none;
-          }
-
-
-          .note-toolbar {
-            /*background-color: white;*/
-/*position: absolute;
-    bottom: 330px;
-    right: 200px;*/
-    /*padding-left: 30px;*/
-    padding-bottom: 30px;
-    /*border-bottom:1px solid #a9a9a9*/
-  }
-
-
-
-
-
-
-
-
-</style>
 
 @endsection
 

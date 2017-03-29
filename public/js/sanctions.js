@@ -36,9 +36,11 @@ $(document).ready(function(){
 //Sanctions table
 
 var sanctions_table = $('#sanctions-DT').DataTable({
-	"bPaginate" : false,
-	"bInfo" :false,
-	"bFilter" : true,
+	"responsive": true,
+	"pageLength": 10,
+	"bInfo": true,
+	"bPaginate": true,
+	"bFilter" : false,
 	"processing": true,
 	"serverSide": true,
 	"ajax": {
@@ -52,25 +54,25 @@ var sanctions_table = $('#sanctions-DT').DataTable({
 		}
 	},
 
-	"bSort" : true,
-	"bFilter" : false,
-
+	"bSort" : true,	
 	"rowId" : 'rv_id',
 	"columns" : [
 
 	{data : 'date_reported'},
-	{data : 'student_id'},
-	{data : 'student_name'},
 	{data : 'rv_id'},
+	{data : 'name'},
 	{data : 'description'},
 	{data : 'offense_level'},
-	{data : 'offense_no'},
-	{data : 'sanction'},
 	{data : 'status'},
+	{data : 'sanction'},
+	{data : 'offense_no'},
+	{data : 'student_details'},
+	
+	
 
 	],
+	"order": [[0, 'asc']]
 });
-
 
 
 //Suspensions table
@@ -173,18 +175,17 @@ var exclusions_table = $('.exclusion-DT').DataTable({
 	],
 });
 
+
+	$('#sanction_find_student').on('click', function(e) {
+		sanctions_table.draw();
+	});
+
 });
 
 
 //Sanctions functions
 
-
-
-$('#sanction_find_student').on('click', function(e) {
-	sanctions_table.draw();
-	e.preventDefault();
-});
-
+/*
 $('#sanctions-DT').on('click', 'tr', function(){
 	var tr_id = $(this).attr('id');
 
@@ -259,7 +260,7 @@ $('#sanctions-DT').on('click', 'tr', function(){
 		}
 
 	});
-});
+});*/
 
 $('#sanction_update_btn').click(function(e){
 	e.preventDefault();
@@ -582,28 +583,28 @@ $('#suspension_log_btn').click(function(e){
 
 //CS functions
 
-	$('#new_log').on('click', function(e){
-		e.preventDefault();
+$('#new_log').on('click', function(e){
+	e.preventDefault();
 
-		$.ajax({
-			url : '/community-service/new_log',
-			type: 'GET',
-			data: $('#new_log_form').serialize(),
+	$.ajax({
+		url : '/community-service/new_log',
+		type: 'GET',
+		data: $('#new_log_form').serialize(),
 
-		}).fail(function(data){
-			var errors = $.parseJSON(data.responseText);
-			var msg="";
+	}).fail(function(data){
+		var errors = $.parseJSON(data.responseText);
+		var msg="";
 
-			$.each(errors.errors, function(k, v) {
-				msg = msg + v + "\n";
-				swal("Oops...", msg, "warning");
-
-			});
-
-		}).done(function(data){
+		$.each(errors.errors, function(k, v) {
+			msg = msg + v + "\n";
+			swal("Oops...", msg, "warning");
 
 		});
+
+	}).done(function(data){
+
 	});
+});
 
 
 function CSdaysToHours()

@@ -12,7 +12,7 @@ use App\LostAndFound;
 use App\events;
 use Carbon\Carbon;
 use DateTime;
-
+use App\SchoolYear;
 use App\Student;
 use App\Violation;
 use App\ViolationReport;
@@ -30,46 +30,31 @@ class CampusVenueReservationController extends Controller
 
  $current_time = Carbon::now()->format('Y-m-d');
 
-
-      $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-      
-
-
-      // $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-
-      
+      $current_school_year = SchoolYear::currentSchoolYear();
        $selected_year = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->pluck('school_year');
 
 
        $organizations = DB::table('requirements')->where('school_year',$selected_year)->get();
-       
-        $schoolyears = DB::table('school_years')->select('school_year')->where('term_name', 'School Year')->where('school_year', '<>', $selected_year)->get();
-
+      
 
     	// $campus_venue_reservation = DB::table('campus_venue_reservation')->get();
         $events = DB::table('events')->get();
 
 
        
-        return view('campus_venue_reservation', ['CampusVenueReservationTable' => $events,'organizations' => $organizations,'schoolyears' => $schoolyears,'schoolyear' => $schoolyear]);
+        return view('campus_venue_reservation', ['CampusVenueReservationTable' => $events,'organizations' => $organizations,'current_school_year' => $current_school_year]);
     }
 
           public function showCampusVenueReservationReports()
     {
-      // $campus_venue_reservation = DB::table('campus_venue_reservation')->get();
+     
         $events = DB::table('events')->get();
 
-         $current_time = Carbon::now()->format('Y-m-d');
+        $current_time = Carbon::now()->format('Y-m-d');
+        $current_school_year = SchoolYear::currentSchoolYear();
+        $school_year_selection = SchoolYear::schoolYearSelection();
 
-
-      $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-
-       $selected_year = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->pluck('school_year');
-
-
-      $schoolyears = DB::table('school_years')->select('school_year')->where('term_name', 'School Year')->where('school_year', '<>', $selected_year)->get();
-       
-        return view('campus_venue_reservation_reports', ['CampusVenueReservationTable' => $events,'schoolyears' => $schoolyears,'schoolyear' => $schoolyear ]);
+        return view('campus_venue_reservation_reports', ['CampusVenueReservationTable' => $events,'school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year ]);
     }
 
 
@@ -124,13 +109,14 @@ class CampusVenueReservationController extends Controller
 
         
         if ($validator->fails()) {
+
             return response()->json(array('success'=> false, 'errors' =>$validator->getMessageBag()->toArray())); 
           
         }
 
         else {
-        $time = explode(" - ", $request->input('time'));
 
+        $time = explode(" - ", $request->input('time'));
 
           $event = DB::table('events')->insert([  
 
@@ -139,13 +125,8 @@ class CampusVenueReservationController extends Controller
             'organization' => $request['organization'],
             'school_year' => $request['school_year'],
             'status' => $request['status'],
-            'start' => $time[0],
-            'end'   => $time[1],
-           // 'start'    => $this->change_date_format($time[0]),
-           //  'end'    => $this->change_date_format($time[1]),
-
-
-            // 'remark_status' => $request['remark_status'],
+            'start' => Carbon::parse($time[0]),
+            'end'   => Carbon::parse($time[1]),
             'cvf_no' => $request['cvf_no']
 
             ]);
