@@ -46,7 +46,7 @@
 						<div class="col-md-4">
 							<div class="form-group">
 
-								<label>Status</label>
+								<output>Status</output>
 								<select id="sort_by" name="sort_by"  class="form-control">
 									<option>All</option>
 									<option>Submitted All Requirements</option>
@@ -61,18 +61,24 @@
 						<div class="col-md-2">
 							<div class="form-group">
 
-								<label>School Year</label>
-								<select name="school_year" id="school_year" class="form-control">
-									@foreach ($schoolyear as $schoolyear)
-									<option>{{$schoolyear->school_year }}</option>
-									@endforeach
+              <output name="v_reports_range">School Year</output>
+                @if (is_null($current_school_year) || is_null($school_year_selection))
+                  <div class="alert alert-danger">
+                    School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.
+                  </div>
+                @else
+                  <select name="school_year" id="school_year" class="form-control">
+                    
+                      <option>{{ $current_school_year }}</option>
+                    
 
-									@foreach ($schoolyears as $schoolyear)
-									<option>{{$schoolyear->school_year }}</option>
-									@endforeach
-									
-								</select>	
-							</div>
+                    @foreach ($school_year_selection as $selection)
+                      <option>{{ $selection->school_year }}</option>
+                    @endforeach
+                  </select> 
+                @endif
+      
+          </div>
 						</div>
 
 
@@ -82,9 +88,8 @@
 
 						<div class="ibox-content" id="table-content">
 							<div class="table-responsive">
-								<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-
-									<table class="table table-striped table-bordered table-hover requirements-DT dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px;width: 100%;"  >  
+								
+<table class="table table-striped table-bordered table-hover dataTable" id="requirements-DT" width="100%">
 
 										<thead>
 											<th>Student Organization</th>
@@ -100,31 +105,14 @@
 											<th>Activity Documentation</th>
 											<th>Remarks</th>
 
-											<!-- <th>Action</th> -->
+											<th>Action</th>
 
 										</thead>
-
-<!-- 							  <tr>
-   									 <td name="organization" id="organization"><center></center></td>
-  								     <td><center><input type="checkbox" class="i-checks" name="requirement1" id="requirement1"></center></td>
-   									 <td><center><input type="checkbox" class="i-checks" name="requirement2" id="requirement2"></center></td>
-   									 <td><center><input type="checkbox" class="i-checks" name="requirement3" id="requirement3"></center></td>
-  								     <td><center><input type="checkbox" class="i-checks" name="requirement4" id="requirement4"></center></td>
-   									 <td><center><input type="checkbox" class="i-checks" name="requirement5" id="requirement5"></center></td>
-   									 <td><center><input type="checkbox" class="i-checks" name="requirement6" id="requirement6"></center></td>
-  								     <td><center><input type="checkbox" class="i-checks" name="requirement7" id="requirement7"></center></td>
-   									 <td><center><input type="checkbox" class="i-checks" name="requirement8" id="requirement8"></center></td>
-  								     <td><center><input type="checkbox" class="i-checks" name="requirement9" id="requirement9"></center></td>
-   									 <td><center><input type="checkbox" class="i-checks" name="requirement10" id="requirement10"></center></td>
-   									 <td><center><input type="checkbox" class="i-checks" name="requirement11" id="requirement11"></center></td>
-
-
-   									</tr> -->
 
 
    								</table>
 
-   							</div>
+   							
    						</div>
    					</div>
 
@@ -152,7 +140,7 @@
    		var sy_id = $('#school_year').val();
 
 
-   		var requirements_renewal_table = $('.requirements-DT').DataTable({
+   		var requirements_renewal_table = $('#requirements-DT').DataTable({
    			"processing": true,
    			"serverSide": true,
    			"ajax": {
@@ -184,6 +172,7 @@
    			{data : 'requirement9', name : 'requirement9'},
    			{data : 'requirement10', name : 'requirement10'},
    			{data : 'requirement11', name : 'requirement11'},
+   			{data: 'action', name: 'action', orderable: false, searchable: false},
 
    			],
 
@@ -204,11 +193,11 @@
    	});
 
    	$('select#school_year').change(function(e){
-   		$('.requirements-DT').DataTable().draw();
+   		$('#requirements-DT').DataTable().draw();
    	});
 
    	$('select#sort_by').change(function(e){
-	$('.requirements-DT').DataTable().ajax.url('/organizationsRenewal/requirements/ByYearAndStatus').load();
+	$('#requirements-DT').DataTable().ajax.url('/organizationsRenewal/requirements/ByYearAndStatus').load();
    	});
 
 /*

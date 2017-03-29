@@ -8,21 +8,7 @@
 
 	<title>@yield('title')</title>
 
-	<!-- Mainly scripts -->
-	<script src="/js/jquery-2.1.1.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-	<!-- Custom and plugin javascript -->
-	<script src="/js/inspinia.js"></script>
-	<script src="/js/plugins/pace/pace.min.js"></script>
-
-	<!-- jQuery UI -->
-	<script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-
-	<!-- Full Calendar Moment -->
-	<script src="/js/plugins/fullcalendar/moment.min.js"></script>
+	
 
 	@section('css')
 	
@@ -48,6 +34,22 @@
 	<link href="/css/note-style.css" rel="stylesheet">
 	
 	@show
+
+	<!-- Mainly scripts -->
+	<script src="/js/jquery-2.1.1.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+	<!-- Custom and plugin javascript -->
+	<script src="/js/inspinia.js"></script>
+	<script src="/js/plugins/pace/pace.min.js"></script>
+
+	<!-- jQuery UI -->
+	<script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+	<!-- Moment JS -->
+	<script src="/js/plugins/fullcalendar/moment.min.js"></script>
 
 </head>
 
@@ -96,8 +98,8 @@
 					</li>
 					<li class="{{ Request::is('violation*' , 'report-violation') ? 'active' : 'null' }}">
 						<a href="#"><i class="fa fa-list-alt"></i> <span class="nav-label ng-binding" > Student Violations Management</span><span class="fa arrow"></span></a>
-							
-							
+						
+						
 						<ul class="nav nav-second-level collapse">
 							
 							<li ui-sref-active="active" class="{{ Request::is('report-violation') ? 'active' : 'null' }}">
@@ -118,43 +120,43 @@
 
 					<li class="{{ Request::is('sanctions/*' , 'sanctions') ? 'active' : 'null' }}">
 						<a href="/sanctions"><i class="fa fa-desktop"></i> <span class="nav-label ng-binding" >Sanctions</span><span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li ui-sref-active="active" class="{{ Request::is('sanctions') ? 'active' : 'null' }}">
-									<a href="/sanctions"><i class=""></i> <span class="nav-label ng-binding"> Sanctions Monitoring</span> </a>
-								</li>
-								<li ui-sref-active="active" class="{{ Request::is('sanctions/reports') ? 'active' : 'null' }}">
-									<a href="/sanctions/reports"><i class=""></i> <span class="nav-label ng-binding"> Reports</span> </a>
-								</li>
-							</ul>
+						<ul class="nav nav-second-level collapse">
+							<li ui-sref-active="active" class="{{ Request::is('sanctions') ? 'active' : 'null' }}">
+								<a href="/sanctions"><i class=""></i> <span class="nav-label ng-binding"> Sanctions Monitoring</span> </a>
+							</li>
+							<li ui-sref-active="active" class="{{ Request::is('sanctions/reports') ? 'active' : 'null' }}">
+								<a href="/sanctions/reports"><i class=""></i> <span class="nav-label ng-binding"> Reports</span> </a>
+							</li>
+						</ul>
 					</li>
 
 
-						<li class="{{ Request::is('locker-*' , 'lockers') ? 'active' : 'null' }}">
-							<a href="#"><i class="fa fa-lock"></i> <span class="nav-label ng-binding">Locker Management</span><span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								
-								<li ui-sref-active="active" class="{{ Request::is('lockers') ? 'active' : 'null' }}">
-									<a href="/lockers"> <i class=""></i> <span class="nav-label ng-binding">Locker Assignment</span> </a>
-								</li>
-								<li ui-sref-active="active" class="{{ Request::is('locker-statistics') ? 'active' : 'null' }}">
-									<a href="/locker-statistics"> <i class=""></i> <span class="nav-label ng-binding">Statistics</span> </a>
-								</li>
-								<li ui-sref-active="active" class="{{ Request::is('locker-reports') ? 'active' : 'null' }}">
-									<a href="/locker-reports"> <i class=""></i> <span class="nav-label ng-binding">Reports</span> </a>
-								</li>
+					<li class="{{ Request::is('locker-*' , 'lockers') ? 'active' : 'null' }}">
+						<a href="#"><i class="fa fa-lock"></i> <span class="nav-label ng-binding">Locker Management</span><span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							
+							<li ui-sref-active="active" class="{{ Request::is('lockers') ? 'active' : 'null' }}">
+								<a href="/lockers"> <i class=""></i> <span class="nav-label ng-binding">Locker Assignment</span> </a>
+							</li>
+							<li ui-sref-active="active" class="{{ Request::is('locker-statistics') ? 'active' : 'null' }}">
+								<a href="/locker-statistics"> <i class=""></i> <span class="nav-label ng-binding">Statistics</span> </a>
+							</li>
+							<li ui-sref-active="active" class="{{ Request::is('locker-reports') ? 'active' : 'null' }}">
+								<a href="/locker-reports"> <i class=""></i> <span class="nav-label ng-binding">Reports</span> </a>
+							</li>
 
-							</ul>
-						</li>
-						<li class="{{ Request::is('lost-and-found/*' , 'lost-and-found') ? 'active' : 'null' }}">
-							<a href="#"><i class="fa fa-book"></i> <span class="nav-label ng-binding">Lost and Found</span><span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-						 		
+						</ul>
+					</li>
+					<li class="{{ Request::is('lost-and-found/*' , 'lost-and-found') ? 'active' : 'null' }}">
+						<a href="#"><i class="fa fa-book"></i> <span class="nav-label ng-binding">Lost and Found</span><span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							
 							
 							<li ui-sref-active="active" class="{{ Request::is('lost-and-found') ? 'active' : 'null' }}">
 								<a href="/lost-and-found"><i class=""></i> <span class="nav-label ng-binding">Add / Claim Items</span> </a>
 							</li>
 							<li ui-sref-active="active" class="{{ Request::is('lost-and-found/statistics') ? 'active' : 'null' }}">
-									<a href="/lost-and-found/statistics"> <i class=""></i> <span class="nav-label ng-binding">Statistics</span> </a>
+								<a href="/lost-and-found/statistics"> <i class=""></i> <span class="nav-label ng-binding">Statistics</span> </a>
 							</li>
 							<li ui-sref-active="active" class="{{ Request::is('lost-and-found/reports') ? 'active' : 'null' }}">
 								<a href="/lost-and-found/reports"> <i class=""></i> <span class="nav-label ng-binding">Reports</span> </a>
@@ -171,7 +173,7 @@
 								<a href="/campus"> <i class=""></i> <span class="nav-label ng-binding">Reservation Form</span> </a>
 							</li>
 						</li>
- 						<li ui-sref-active="active" class="{{ Request::is('reservationReports') ? 'active' : 'null' }}">
+						<li ui-sref-active="active" class="{{ Request::is('reservationReports') ? 'active' : 'null' }}">
 							<a href="/reservationReports"> <i class=""></i> <span class="nav-label ng-binding">Reports</span> </a>
 						</li> 
 
@@ -236,63 +238,63 @@
 				</ul>
 			</li>
 
-						
-							@if ( Auth::user()->roles->first()->name == 'Admin')
-							<li class="{{ Request::is('student-records' , 'violation-list' , 'activity-records') ? 'active' : 'null' }}">
-								<a href="#"><i class="fa fa-exchange"></i> <span class="nav-label ng-binding">Records Management</span><span class="fa arrow"></span></a>
-								<ul class="nav nav-second-level collapse">
-									<li ui-sref-active="active" class="{{ Request::is('student-records') ? 'active' : 'null' }}">
-										<a href="/student-records"><span class="nav-label ng-binding">Student Records</span> </a>
+			
+			@if ( Auth::user()->roles->first()->name == 'Admin')
+			<li class="{{ Request::is('student-records' , 'violation-list' , 'activity-records') ? 'active' : 'null' }}">
+				<a href="#"><i class="fa fa-exchange"></i> <span class="nav-label ng-binding">Records Management</span><span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level collapse">
+					<li ui-sref-active="active" class="{{ Request::is('student-records') ? 'active' : 'null' }}">
+						<a href="/student-records"><span class="nav-label ng-binding">Student Records</span> </a>
 
-									</li>
-									<li ui-sref-active="active" class="{{ Request::is('violation-list') ? 'active' : 'null' }}">
-										<a href="/violation-list"><span class="nav-label ng-binding">Violation List</span> </a>
-									</li>
+					</li>
+					<li ui-sref-active="active" class="{{ Request::is('violation-list') ? 'active' : 'null' }}">
+						<a href="/violation-list"><span class="nav-label ng-binding">Violation List</span> </a>
+					</li>
 
-									<li ui-sref-active="active" class="{{ Request::is('activity-records') ? 'active' : 'null' }}">
-										<a href="/activity-records"><span class="nav-label ng-binding">Activities</span> </a>
-									</li>
+					<li ui-sref-active="active" class="{{ Request::is('activity-records') ? 'active' : 'null' }}">
+						<a href="/activity-records"><span class="nav-label ng-binding">Activities</span> </a>
+					</li>
 
-								</ul>
-							</li>
+				</ul>
+			</li>
 
-							
-							
-							
+			
+			
+			
 
-							<li class="{{ Request::is('user-management/*') ? 'active' : 'null' }}">
-								<a href="#"><i class="fa fa-users"></i> <span class="nav-label ng-binding">User Management</span><span class="fa arrow"></span></a>
-								<ul class="nav nav-second-level collapse">
-									<li ui-sref-active="active" class="{{ Request::is('user-management/admin') ? 'active' : 'null' }}">
-										<a href="/user-management/admin/new-account"><span class="nav-label ng-binding">Create new account</span> </a>
+			<li class="{{ Request::is('user-management/*') ? 'active' : 'null' }}">
+				<a href="#"><i class="fa fa-users"></i> <span class="nav-label ng-binding">User Management</span><span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level collapse">
+					<li ui-sref-active="active" class="{{ Request::is('user-management/admin') ? 'active' : 'null' }}">
+						<a href="/user-management/admin/new-account"><span class="nav-label ng-binding">Create new account</span> </a>
 
-									</li>
-									<li ui-sref-active="active" class="{{ Request::is('user-management/roles') ? 'active' : 'null' }}">
-										<a href="/user-management/roles"><span class="nav-label ng-binding">User Roles</span> </a>
-									</li>
+					</li>
+					<li ui-sref-active="active" class="{{ Request::is('user-management/roles') ? 'active' : 'null' }}">
+						<a href="/user-management/roles"><span class="nav-label ng-binding">User Roles</span> </a>
+					</li>
 
-								</ul>
-							</li>
-
-
-							<li ui-sref-active="active" class="{{ Request::is('content-management') ? 'active' : 'null' }}">
-								<a href="/content-management"><i class="fa fa-edit"></i> <span class="nav-label ng-binding">Content Management</span> </a>
-							</li>
-							@else
-							
+				</ul>
+			</li>
 
 
-							@endif
+			<li ui-sref-active="active" class="{{ Request::is('content-management') ? 'active' : 'null' }}">
+				<a href="/content-management"><i class="fa fa-edit"></i> <span class="nav-label ng-binding">Content Management</span> </a>
+			</li>
+			@else
+			
 
 
-							<li ui-sref-active="active" class="{{ Request::is('notes') ? 'active' : 'null' }}">
-								<a href="/notes"><i class="fa fa-clipboard"></i> <span class="nav-label ng-binding">Notes</span> </a>
-							</li>
+			@endif
 
-							@if ( Auth::user()->roles->first()->name == 'Admin')
-							<li class="{{ Request::is('settings/*') ? 'active' : 'null' }}">
-								<a href="#"><i class="fa fa-cog"></i> <span class="nav-label ng-binding">Settings</span><span class="fa arrow"></span></a>
-								<ul class="nav nav-second-level collapse">
+
+			<li ui-sref-active="active" class="{{ Request::is('notes') ? 'active' : 'null' }}">
+				<a href="/notes"><i class="fa fa-clipboard"></i> <span class="nav-label ng-binding">Notes</span> </a>
+			</li>
+
+			@if ( Auth::user()->roles->first()->name == 'Admin')
+			<li class="{{ Request::is('settings/*') ? 'active' : 'null' }}">
+				<a href="#"><i class="fa fa-cog"></i> <span class="nav-label ng-binding">Settings</span><span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level collapse">
 						<!-- 	<li ui-sref-active="active">
 								<a href="/violation"><i class="fa fa-plus"></i> <span class="nav-label ng-binding">Violations</span> </a>
 
@@ -326,39 +328,39 @@
 
 
 			<div class="row border-bottom">
-        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
+				<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<div class="navbar-header">
 
-             <!-- <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a> -->
-            
-        </div>
-        	<ul class="nav navbar-top-links navbar-left">
-        	<li>
-            		<img src="/img/lpu-cavite.png" class="" height="55px;" style="margin-top: 2px; margin-left: 10px;">
-            	</li>
-            	</ul>
-            <ul class="nav navbar-top-links navbar-right">
-            	
-                <li>
-                    <span class="m-r-sm text-muted welcome-message">Welcome to Student Affairs Office Information System</span>
-                </li>
-      
+						<!-- <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a> -->
+						
+					</div>
+					<ul class="nav navbar-top-links navbar-left">
+						<li>
+							<img src="/img/lpu-cavite.png" class="" height="55px;" style="margin-top: 2px; margin-left: 10px;">
+						</li>
+					</ul>
+					<ul class="nav navbar-top-links navbar-right">
+						
+						<li>
+							<span class="m-r-sm text-muted welcome-message">Welcome to Student Affairs Office Information System</span>
+						</li>
+						
 
-                <li class="dropdown">
-                	<a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                		<img alt="profile_picture" class="img-circle" style="border-radius: 50%;"  height="25px" width="25px" src="/img/avatars/{{ Auth::user()->avatar }}">
-                		{{ Auth::user()->email }} &nbsp;<i class="caret"></i>
-                	</a>
-                	<ul class="dropdown-menu">
-                		<li><a href="/profile/my_profile"><i class="fa fa-user"></i>&nbsp;&nbsp;Profile</a></li>
-                		<li class="divider"></li>
-                		<li><a href="/logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Log Out</a></li>
-                	</ul>
-                </li>
-            </ul>
+						<li class="dropdown">
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+								<img alt="profile_picture" class="img-circle" style="border-radius: 50%;"  height="25px" width="25px" src="/img/avatars/{{ Auth::user()->avatar }}">
+								{{ Auth::user()->email }} &nbsp;<i class="caret"></i>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="/profile/my_profile"><i class="fa fa-user"></i>&nbsp;&nbsp;Profile</a></li>
+								<li class="divider"></li>
+								<li><a href="/logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Log Out</a></li>
+							</ul>
+						</li>
+					</ul>
 
-        </nav>
-        </div>
+				</nav>
+			</div>
 
 
 			<div class="row  border-bottom white-bg dashboard-header">
@@ -432,10 +434,10 @@
 	@yield('scripts')
 
 	<!-- Data Tables -->
-    <script src="/js/plugins/dataTables/datatables.min.js"></script>
+	<script src="/js/plugins/dataTables/datatables.min.js"></script>
 
 	<!-- Idle Timer plugin -->
-    <script src="/js/plugins/idle-timer/idle-timer.min.js"></script>
+	<script src="/js/plugins/idle-timer/idle-timer.min.js"></script>
 
 	<!-- GITTER -->
 	<script src="/js/plugins/gritter/jquery.gritter.min.js"></script>
@@ -473,7 +475,6 @@
 	<script src="/js/plugins/clockpicker/clockpicker.js"></script>
 
 	<!-- Date range picker -->
-	<!-- <script src="/js/plugins/daterangepicker/daterangepicker.js"></script> -->
 	<script src="{{ url('_asset/js') }}/daterangepicker.js"></script>  
 	
 	<!-- Select2 -->
@@ -492,9 +493,9 @@
 	<script src="/js/register.js"></script>
 
 	<!-- G-Charts -->
-	<script type="text/javascript" src="/js/jsapi.js"></script>
-	<script type="text/javascript" src="/js/uds_api_contents.js"></script>
-
+	<script type="text/javascript" src="/js/gchart/jsapi.js"></script>
+	<script type="text/javascript" src="/js/gchart/uds_api.js"></script>
+	
 	@show
 
 </body>

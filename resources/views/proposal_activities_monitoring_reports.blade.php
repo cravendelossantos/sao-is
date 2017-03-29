@@ -29,7 +29,7 @@
     					<div class="col-md-3">
 								<div class="form-group">
 
-								<label>Select Organization</label>
+								<output>Select Organization</output>
 								<select name="organizationName" id="organizationName" class="form-control">
 								<option autofocus="" disabled selected value="0">Select Organization</option>
 									@foreach ($organizations as $organization)
@@ -46,7 +46,7 @@
 							</div>
 							<div class="col-md-3">
 							<div class="form-group">
-								<label>Status</label>
+								<output>Status</output>
 								<select id="sort_by" name="sort_by"  class="form-control">
 									<option value="">All</option>
 									<option value="1">Submitted</option>
@@ -57,19 +57,24 @@
 						<div class="col-md-3">
 							<div class="form-group">
 
-								<label>School Year</label>
-								<select name="school_year" id="school_year" class="form-control">
-									@foreach ($schoolyear as $schoolyear)
-									<option>{{$schoolyear->school_year }}</option>
-									@endforeach
+              <output name="">School Year</output>
+                @if (is_null($current_school_year) || is_null($school_year_selection))
+                  <div class="alert alert-danger">
+                    School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.
+                  </div>
+                @else
+                  <select name="school_year" id="school_year" class="form-control">
+                    
+                      <option>{{ $current_school_year }}</option>
+                    
 
-									@foreach ($schoolyears as $schoolyear)
-									<option>{{$schoolyear->school_year }}</option>
-									@endforeach
-									
-								</select>	
-								
-							</div>
+                    @foreach ($school_year_selection as $selection)
+                      <option>{{ $selection->school_year }}</option>
+                    @endforeach
+                  </select> 
+                @endif
+      
+          </div>
 						</div>
 
     		

@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 
 function getLAFReports(){
-    $('.lost-and-found').DataTable().destroy();
+
 
  var lost_and_found = $('.lost-and-found').DataTable({
   "processing": true,

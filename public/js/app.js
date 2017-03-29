@@ -365,7 +365,7 @@ $('#print').click(function(e){
  $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
-                dom: '<"html5buttons"B>',
+                
                
 
             });
@@ -399,7 +399,7 @@ $('.dataTables-example').DataTable({
 
 });*/
 
-$('.dataTables-without-buttons').DataTable({
+$('.dataTables').DataTable({
 	dom : '<"html5buttons">'
 
 });

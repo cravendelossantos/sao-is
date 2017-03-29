@@ -75,25 +75,23 @@
 						<div class="form-group">
 
 								<label>School Year</label>
-<!-- 								<select name="school_year" id="school_year" class="form-control" >
-\
-									@foreach ($schoolyears as $schoolyear)
-									<option>{{$schoolyear->school_year }}</option>
+
+									@if (is_null($current_school_year))
+
+									<div class="alert alert-danger">
+                                		School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.
+                           			</div>
+
+									@else
 									
-							
-								
-									@endforeach
+									<output id="school_year1" name="school_year1" class="form-control" autofocus="" 	aria-required="true" >
+									{{ $current_school_year }}
+									</output>
 									
-								</select>	 -->
+									<input type="hidden" id="school_year" name="school_year" class="form-control" autofocus="" aria-required="true" value="{{ $current_school_year }}">
+									@endif
 
-									<output id="school_year1" name="school_year1" class="form-control" autofocus="" aria-required="true"  >{{$schoolyear->school_year }}</output>
-									<input type="hidden" id="school_year" name="school_year" class="form-control" autofocus="" aria-required="true" value="{{$schoolyear->school_year }}">
-
-
-
-
-
-					</div>
+						</div>
 					</div>
 				
 				</div>

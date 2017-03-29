@@ -15,7 +15,7 @@ use DateTime;
 use Auth;
 use Yajra\Datatables\Facades\Datatables;
 use Response;
-
+use App\SchoolYear;
 
 class OrganizationsRenewalController extends Controller
 {
@@ -26,50 +26,27 @@ class OrganizationsRenewalController extends Controller
     
  	    public function showOrganizationsRenewal()
     {
-       
-      $current_time = Carbon::now()->format('Y-m-d');
+      $current_school_year = SchoolYear::currentSchoolYear();
+        $school_year_selection = SchoolYear::schoolYearSelection();
 
-
-      $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-
-      
-       $selected_year = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->pluck('school_year');
-
-
-       $organizations = DB::table('requirements')->where('school_year',$selected_year)->get();
-      return view('organizations_renewal',['organizations' => $organizations],['schoolyear' => $schoolyear]);
+       $organizations = DB::table('requirements')->where('school_year',$current_school_year)->get();
+      return view('organizations_renewal',['organizations' => $organizations],['current_school_year' => $current_school_year]);
     }
 
       public function showOrganizationsRenewalList()
     {
-       $current_time = Carbon::now()->format('Y-m-d');
+       $current_school_year = SchoolYear::currentSchoolYear();
+        $school_year_selection = SchoolYear::schoolYearSelection();
 
-
-      $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-
-       $selected_year = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->pluck('school_year');
-
-
-      $schoolyears = DB::table('school_years')->select('school_year')->where('term_name', 'School Year')->where('school_year', '<>', $selected_year)->get();
-
-
-
-       
-        return view('organizations_renewal_list',['schoolyears' => $schoolyears],['schoolyear' => $schoolyear]);
+        return view('organizations_renewal_list',['school_year_selection' => $school_year_selection],['current_school_year' => $current_school_year]);
     }
 
 
       public function showOrganizationsRenewalAdd()
     {
 
-
-     $current_time = Carbon::now()->format('Y-m-d');
-
-
-
-$schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-       
-        return view('organizations_renewal_add',['schoolyears' => $schoolyear]);
+      $current_school_year = SchoolYear::currentSchoolYear();
+        return view('organizations_renewal_add',['current_school_year' => $current_school_year]);
     }
 
 
@@ -84,8 +61,12 @@ $schoolyear = DB::table('school_years')->select('school_year')->where('term_name
         public function getRequirementsTable()
     {
 
-
-        return Datatables::eloquent(Requirements::query())->make(true);
+        return Datatables::eloquent(Requirements::query())
+        ->addColumn('action', function ($req) {
+                return '<center><a href="#edit-'.$req->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                    <a href="#delete-'.$req->id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
+            })
+        ->make(true);
 
     }
 
@@ -129,7 +110,13 @@ $schoolyear = DB::table('school_years')->select('school_year')->where('term_name
       
     
 
-    return Datatables::eloquent(Requirements::query()->where('school_year',$request['school_year']))->make(true);
+    return Datatables::eloquent(Requirements::query()
+      ->where('school_year',$request['school_year']))
+      ->addColumn('action', function ($req) {
+                return '<center><a href="#edit-'.$req->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                    <a href="#delete-'.$req->id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
+            })
+        ->make(true);
     }
 
         public function searchRequirementsByYearAndStatus(Request $request)

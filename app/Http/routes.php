@@ -229,11 +229,7 @@ Route::get('/lost-and-found', [
 //Lost and Found Tables
 Route::post('/lost-and-founds/items/all', 'LostAndFoundController@getLostAndFoundTable');
 Route::post('/lost-and-founds/items/reports', 'LostAndFoundController@getLostAndFoundTableReport');
-Route::post('/lost-and-founds/items/sort_by=claimed' , 'LostAndFoundController@TableFilterClaimed');
-Route::post('/lost-and-founds/items/sort_by=unclaimed' , 'LostAndFoundController@TableFilterUnclaimed');
-Route::post('/lost-and-founds/items/sort_by=donated' , 'LostAndFoundController@TableFilterDonated');
 
-//Reports
 Route::get('/lost-and-found/statistics', 'LostAndFoundController@showLostAndFoundStatistics');
 Route::get('/lost-and-found/reports', 'LostAndFoundController@showLostAndFoundReports');
 Route::post('/lost-and-found/reports/list', 'LostAndFoundController@postLostAndFoundReportsTable');

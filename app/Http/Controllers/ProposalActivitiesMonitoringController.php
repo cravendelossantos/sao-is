@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use DateTime;
 use Auth;
 use Yajra\Datatables\Facades\Datatables;
+use App\SchoolYear;
 
 class ProposalActivitiesMonitoringController extends Controller
 {
@@ -24,25 +25,12 @@ class ProposalActivitiesMonitoringController extends Controller
 
     public function showProposalActivities()
     {
-
- $current_time = Carbon::now()->format('Y-m-d');
-
-
-      $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-
-       $selected_year = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->pluck('school_year');
-
-
-      $schoolyears = DB::table('school_years')->select('school_year')->where('term_name', 'School Year')->where('school_year', '<>', $selected_year)->get();
-
-$organizations = DB::table('requirements')->where('school_year',$selected_year)->get();
+      $current_school_year = SchoolYear::currentSchoolYear();
+      $school_year_selection = SchoolYear::schoolYearSelection();
+      $organizations = DB::table('requirements')->where('school_year',$current_school_year)->get();
 
        
-        return view('proposal_activities_monitoring',['organizations' => $organizations,'schoolyears' => $schoolyears,'schoolyear' => $schoolyear]);
-
-       
-
-       
+        return view('proposal_activities_monitoring',['organizations' => $organizations,'school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year]);
 
     }
 
@@ -50,13 +38,39 @@ $organizations = DB::table('requirements')->where('school_year',$selected_year)-
        public function getActivitiesByYear(Request $request)
     {
 
-    return Datatables::eloquent(Activity::query()->where('school_year',$request['school_year']))->make(true);
+    return Datatables::eloquent(Activity::query()->where('school_year',$request['school_year']))
+      ->editColumn('status', function($act){
+                if ($act == true){
+                    $badge = '<center><span class="label label-primary"><big>Submitted</big></span></center>';
+                }  else {
+                    $badge = '<center><span class="label label-danger"><big>Not Submitted</big></span></center>';
+                }
+                    return $badge;
+            })
+      ->addColumn('action', function ($students) {
+                return '<center><a href="#edit-'.$students->rv_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                    <a href="#delete-'.$students->rv_id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
+      })
+      ->make(true);
        
     } 
      public function getActivitiesByYearAndOrg(Request $request)
     {
 
-    return Datatables::eloquent(Activity::query()->where('school_year',$request['school_year'])->where('organization',$request['organization']))->make(true);
+    return Datatables::eloquent(Activity::query()->where('school_year',$request['school_year'])->where('organization',$request['organization']))
+    ->editColumn('status', function($act){
+                if ($act == true){
+                    $badge = '<center><span class="label label-primary"><big>Submitted</big></span></center>';
+                }  else {
+                    $badge = '<center><span class="label label-danger"><big>Not Submitted</big></span></center>';
+                }
+                    return $badge;
+            })
+    ->addColumn('action', function ($students) {
+                return '<center><a href="#edit-'.$students->rv_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                    <a href="#delete-'.$students->rv_id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
+            })
+    ->make(true);
        
     }
 
@@ -97,20 +111,11 @@ $organizations = DB::table('requirements')->where('school_year',$selected_year)-
      public function showAddActivity()
     { 
 
-      $current_time = Carbon::now()->format('Y-m-d');
+      $current_school_year = SchoolYear::currentSchoolYear();
+      $school_year_selection = SchoolYear::schoolYearSelection();
+      $organizations = DB::table('requirements')->where('school_year',$current_school_year)->get();
 
-
-      $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-
-      
-       $selected_year = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->pluck('school_year');
-
-
-       $organizations = DB::table('requirements')->where('school_year',$selected_year)->get();
-  
-
-
-      return view('proposal_activities_monitoring_add',['organizations' => $organizations],['schoolyears' => $schoolyear]);
+      return view('proposal_activities_monitoring_add',['organizations' => $organizations,'school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year]);
     }
 
        public function getActivityDetails(Request $request)
@@ -184,24 +189,15 @@ $organizations = DB::table('requirements')->where('school_year',$selected_year)-
  
          public function showProposalActivitiesReports()
     {
- $current_time = Carbon::now()->format('Y-m-d');
+      $current_school_year = SchoolYear::currentSchoolYear();
+      $school_year_selection = SchoolYear::schoolYearSelection();
+      $organizations = DB::table('requirements')->where('school_year',$current_school_year)->get();
 
-
-      $schoolyear = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->get();
-
-       $selected_year = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->pluck('school_year');
-
-
-      $schoolyears = DB::table('school_years')->select('school_year')->where('term_name', 'School Year')->where('school_year', '<>', $selected_year)->get();
-
-$organizations = DB::table('requirements')->where('school_year',$selected_year)->get();
-
-       
-        return view('proposal_activities_monitoring_reports',['organizations' => $organizations,'schoolyears' => $schoolyears,'schoolyear' => $schoolyear]);
+      return view('proposal_activities_monitoring_reports',['organizations' => $organizations,'school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year]);;
 
        
        
-        // return view('proposal_activities_monitoring_reports');
+       
     }
 
 

@@ -12,7 +12,7 @@ $(document).ready(function(){
 			menubar: 'file'
 		});
 		
-	var lockers_table = $('.lockers-DT').DataTable({
+	var lockers_table = $('#lockers-DT').DataTable({
 		"processing": true,
 		"serverSide": true,
 		"ajax": {
@@ -33,9 +33,9 @@ $(document).ready(function(){
 		{data : 'locker_no'},
 		{data : 'floor'},
 		{data : 'building'},
-		{data : 'lessee_name'},
 		{data : 'status'},		  
-
+		{data : 'lessee_name'},
+		{data: 'action', name: 'action', orderable: false, searchable: false},
 
 
 
@@ -61,7 +61,6 @@ $(document).ready(function(){
 		}]
 	});
 
-});
 
 
 
@@ -116,7 +115,7 @@ $('#add_locker_btn').click(function(e){
 
 
 		}).done(function(data) {
-			swal('Success!' , 'New Locker location added!', "success");
+			swal('Success!' , 'New Lockers added!', "success");
 			$('form#add_locker_form')[0].reset();
 			lockers_table.ajax.reload();
 		});
@@ -256,17 +255,16 @@ $('#locker_update').click(function(e){
 	$('#location_sort').prop('selectedIndex', 0);
 	$('#status_sort').prop('selectedIndex', 0);
 	//printlockercontract
-	if (data['occupied'] == true)
+	/*if (data['occupied'] == true)
 	{
 		console.log($('#c_fname').val());
 		$('#locker_contract').show();
 		$('#c_fname').html($('#m_lessee_name').val());
 
-	}
-	$('form#locker_status_update')[0].reset();
-
+	}*/
 	lockers_table.ajax.reload();
-
+	$('form#locker_status_update')[0].reset();
 });
 });
 
+});

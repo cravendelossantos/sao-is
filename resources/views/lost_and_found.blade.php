@@ -143,7 +143,7 @@
 
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Name's Found,if any</label>
+								<label>Name's Found (If any)</label>
 								<input type="text" placeholder="Name's Found" name="ownerName" class="form-control" style="text-transform: capitalize;">
 							</div>
 						</div>
@@ -252,10 +252,10 @@
 			<div class="ibox-content" id="table-content">
 												<div class="form-group">
 				<select id="sort_by" name="sort_by"  class="form-control">
-					<option>All</option>
-					<option>Unclaimed</option>
-					<option>Claimed</option>
-					<option>Donated</option>
+					<option value="All">All</option>
+					<option value="Unclaimed">Unclaimed</option>
+					<option value="Claimed">Claimed</option>
+					<option value="Donated">Donated</option>
 				</select>
 
 

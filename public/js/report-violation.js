@@ -46,7 +46,7 @@ var violation_reports_table = $('#violation-reports-DT').DataTable({
 	{data : 'name', name : 'violations.name'},
 	{data : 'description', name : 'violations.description'},
 	{data : 'offense_level'},
-	 {data: 'action', name: 'action', orderable: false, searchable: false},
+	{data: 'action', name: 'action', orderable: false, searchable: false},
 	{data : 'offense_no'},
 	{data : 'sanction'},
 	{data : 'complainant_details', name : 'complainants.complainant_name'}

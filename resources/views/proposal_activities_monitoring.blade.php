@@ -123,7 +123,7 @@
 						<div class="col-md-4">
 							<div class="form-group">
 
-								<label>Select Organization</label>
+								<output>Select Organization</output>
 								<select name="organizationName" id="organizationName" class="form-control">
 								<option autofocus="" disabled selected >Select Organization</option>
 									@foreach ($organizations as $organization)
@@ -149,20 +149,27 @@
 
 
 					<div class="col-md-4">
-						<div class="form-group">
+						
+            <div class="form-group">
 
-								<label>School Year</label>
-								<select name="school_year" id="school_year" class="form-control">
-									@foreach ($schoolyear as $schoolyear)
-									<option>{{$schoolyear->school_year }}</option>
-									@endforeach
+              <output name="">School Year</output>
+                @if (is_null($current_school_year) || is_null($school_year_selection))
+                  <div class="alert alert-danger">
+                    School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.
+                  </div>
+                @else
+                  <select name="school_year" id="school_year" class="form-control">
+                    
+                      <option>{{ $current_school_year }}</option>
+                    
 
-									@foreach ($schoolyears as $schoolyear)
-									<option>{{$schoolyear->school_year }}</option>
-									@endforeach
-									
-								</select>	
-					</div>
+                    @foreach ($school_year_selection as $selection)
+                      <option>{{ $selection->school_year }}</option>
+                    @endforeach
+                  </select> 
+                @endif
+      
+          </div>
 					</div>
 
 
@@ -176,9 +183,9 @@
 
 			<div class="ibox-content" id="table-content">
 				<div class="table-responsive">
-					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+					
 
-						<table class="table table-striped table-bordered table-hover activities-DT dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid">
+						<table class="table table-striped table-bordered table-hover dataTable" id="activities-DT" width="100%">
 
 							<thead>
 						
@@ -186,14 +193,14 @@
 									<th>Title of Activity</th>
 									<th>Date</th>
 									<th>Status</th>
-									<!-- <th>Action</th> -->
+									<th>Action</th>
 						
 							</thead>
 							
 						
 						</table>
 
-					</div>
+					
 				</div>
 
 			</div>
@@ -270,7 +277,7 @@ $(document).ready(function(){
 // var org_id = $('#organizationName').val();
 
 //
-var activities_table = $('.activities-DT').DataTable({
+var activities_table = $('#activities-DT').DataTable({
 	"processing": true,
     "serverSide": true,
     "ajax": {
@@ -294,25 +301,15 @@ var activities_table = $('.activities-DT').DataTable({
 		{data : 'activity'},
 		{data : 'date'},
 		{data : 'status'},
-/*		{"data": null ,"defaultContent":"<button>View</button>"},*/
+		{data: 'action', name: 'action', orderable: false, searchable: false},
 		
 	],
-	"columnDefs":[{
-		"targets":3, 
-		"render":function(data,type,full,meta){
-			console.log("data = " +data);
-			if(data == 0){
-				return '<p style="color:red"> Not Submitted </p>';
-			} else{
-				return '<p style="color:green"> Submitted </p>';
-			}
-		}
-}]
+	
 });
 });
 $('select#school_year').change(function(e){
 	// $('.activities-DT').DataTable().draw();
-	$('.activities-DT').DataTable().ajax.url('/activities/ActivitiesByYear').load();
+	$('#activities-DT').DataTable().ajax.url('/activities/ActivitiesByYear').load();
 });
 
 // $('select#organizationName').change(function(e){
@@ -332,7 +329,7 @@ $('select#organizationName').change(function(e){
 
 	
 
-	$('.activities-DT').DataTable().ajax.url('/activities/ActivitiesByYearAndOrg').load();
+	$('#activities-DT').DataTable().ajax.url('/activities/ActivitiesByYearAndOrg').load();
 // $('.activities-DT').DataTable().draw();
 
 // /* $('.requirements-DT').DataTable().destroy();
@@ -433,7 +430,7 @@ $('#organizationName')
 			 	 showConfirmButton: false 
 			 	});
 				// activities_table.ajax.reload();
-			$('.activities-DT').DataTable().ajax.url('/activities/ActivitiesByYear').load();
+			$('#activities-DT').DataTable().ajax.url('/activities/ActivitiesByYear').load();
 
 	
 
@@ -457,7 +454,7 @@ $('#organizationName')
 
 
 	//Get item details to Modal
-	$('.activities-DT').on('click', 'tr', function(){
+	$('#activities-DT').on('click', 'tr', function(){
 		var tr_id = $(this).attr('id');
 		
 		$('form#UpdateActvity')[0].reset();

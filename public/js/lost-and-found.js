@@ -17,6 +17,7 @@ $(document).ready(function(){
 			data: function (d) {
 
 				d.school_year = $('#school_year').val();
+				d.status = $('select#sort_by').val();
 
 			},
 		},
@@ -245,21 +246,8 @@ $('#claim_btn').click(function(e){
 
 //Filter Results
 $('select#sort_by').change(function(e){
-	e.preventDefault();
-	var selected = $('select#sort_by option:selected').index();
 
-
-	if (selected == 0) {
-		lost_and_found_table.ajax.url('/lost-and-founds/items/all').load();		
-	} else if (selected == 1)	{
-		lost_and_found_table.ajax.url('/lost-and-founds/items/sort_by=unclaimed').load();
-	} else if (selected == 2) {
-		lost_and_found_table.ajax.url('/lost-and-founds/items/sort_by=claimed').load();	
-	} else if (selected == 3) {
-		lost_and_found_table.ajax.url('/lost-and-founds/items/sort_by=donated').load();	
-	}
-
-
+	lost_and_found_table.ajax.reload();
 
 });
 

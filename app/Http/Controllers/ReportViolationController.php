@@ -72,9 +72,6 @@ class ReportViolationController extends Controller
                 }
                     return $badge;
             })
-         /*   ->editColumn('student_name', function($student){
-                return $student->first_name. " " .$student->last_name;
-            })*/
             ->editColumn('description', function($violation){
                 return '<p>'. $violation->description .'</p>';
             })

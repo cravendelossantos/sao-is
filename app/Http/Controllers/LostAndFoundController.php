@@ -35,8 +35,11 @@ class LostAndFoundController extends Controller
 		$today = Carbon::now();
 		LostAndFound::where('disposal_date','<', $today)->update(['status' => 3]);
 		
-		$all_items = LostAndFound::all()->where('school_year',$request['school_year']);
-		
+		if ($request['status'] == "All"){
+			$all_items = LostAndFound::where('school_year', $request['school_year']);
+		} else {
+		$all_items = LostAndFound::where('school_year',$request['school_year'])->where('status', $request['status']);
+		}
 		return Datatables::of($all_items)
 			->editColumn('status', function($item){
 				if ($item->status == "Unclaimed"){
@@ -75,21 +78,7 @@ class LostAndFoundController extends Controller
 		return response()->json(['data' => $data]);
 	}
 
-	public function TableFilterClaimed(Request $request)
-	{
-		return Datatables::eloquent(LostAndFound::query()->where('school_year',$request['school_year'])->where('status', 'claimed'))->make(true);	
-	}
-
-	public function TableFilterUnclaimed(Request $request)
-	{
-		return Datatables::eloquent(LostAndFound::query()->where('school_year',$request['school_year'])->where('status', 'unclaimed'))->make(true);	
-	}
-
-	public function TableFilterDonated(Request $request)
-	{
-		return Datatables::eloquent(LostAndFound::query()->where('school_year',$request['school_year'])->where('status', 'donated'))->make(true);	
-	}
-
+	
 	public function searchLostAndFound(Request $request)
 	{
 		$item = $request->input('searchBox');

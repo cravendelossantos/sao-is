@@ -85,99 +85,99 @@ $(document).ready(function() {
 
         select: function(start, end, jsEvent, view) {
 
+            $('input[name="time"]').daterangepicker({
+              "minDate": moment(start).format('YYYY-MM-DD hh:mm A'),
+              "maxDate": moment(end).format('YYYY-MM-DD hh:mm A'),
+
+
+
+              "timePicker": true,
+              "timePicker12Hour": true,
+              "timePickerIncrement": 15,
+              "startDate": moment(start).format('YYYY-MM-DD hh:mm A'),
+              "endDate": moment(start).format('YYYY-MM-DD hh:mm A'),
+
+
+              "autoApply": true,
+              "locale": {
+
+                "timePicker12Hour": true,
+                "format": "YYYY-MM-DD hh:mm A",
+                "separator": " - ",
+            }
+        });
+            if (moment().diff(start, 'days') < -4) {
+              $('#calendar').fullCalendar('unselect');
+              $('#ModalAdd #time').val(moment(start).format('YYYY-MM-DD hh:mm A')+" - "+moment(start).format('YYYY-MM-DD hh:mm A'));
+              
+              $('#ModalAdd #cvf_no').val(cvf_no);
+
+              $('#ModalAdd').modal('show');
+              return false;
+
+
+          }
+
+
+      },
+      eventRender: function(event, element) {
+
+        if (event.status == "Banned"){
+          element.css('background-color', '#9B0D0D');
+          element.css('border-color', '#9B0D0D');
+          element.css('color', 'white');
+
+
+      }
+      else if (event.status == "OnProcess")
+      {
+          element.css('background-color', '#04803A');
+          element.css('border-color', '#04803A');
+          element.css('color', 'white');
+      }
+      else
+      {
+
+      };
+
+      element.bind('click', function() {
+
           $('input[name="time"]').daterangepicker({
-            "minDate": moment(start).format('YYYY-MM-DD hh:mm A'),
-            "maxDate": moment(end).format('YYYY-MM-DD hh:mm A'),
+            "minDate": event.start.format('YYYY-MM-DD'),
 
 
 
             "timePicker": true,
             "timePicker12Hour": true,
             "timePickerIncrement": 15,
-            "startDate": moment(start).format('YYYY-MM-DD hh:mm A'),
-            "endDate": moment(start).format('YYYY-MM-DD hh:mm A'),
+            "startDate": event.start.format('YYYY-MM-DD HH:mm A'),
+            "endDate": event.end.format('YYYY-MM-DD HH:mm A'),
 
 
             "autoApply": true,
             "locale": {
 
               "timePicker12Hour": true,
-              "format": "YYYY-MM-DD hh:mm A",
+              "format": "YYYY-MM-DD HH:mm A",
               "separator": " - ",
           }
       });
-          if (moment().diff(start, 'days') < -4) {
-            $('#calendar').fullCalendar('unselect');
-            $('#ModalAdd #time').val(moment(start).format('YYYY-MM-DD hh:mm A')+" - "+moment(start).format('YYYY-MM-DD hh:mm A'));
-            
-            $('#ModalAdd #cvf_no').val(cvf_no);
-
-            $('#ModalAdd').modal('show');
-            return false;
-
-
-        }
-
-
-    },
-    eventRender: function(event, element) {
-
-      if (event.status == "Banned"){
-        element.css('background-color', '#9B0D0D');
-        element.css('border-color', '#9B0D0D');
-        element.css('color', 'white');
-
-
-    }
-    else if (event.status == "OnProcess")
-    {
-        element.css('background-color', '#04803A');
-        element.css('border-color', '#04803A');
-        element.css('color', 'white');
-    }
-    else
-    {
-
-    };
-
-    element.bind('click', function() {
-
-        $('input[name="time"]').daterangepicker({
-          "minDate": event.start.format('YYYY-MM-DD'),
-
-
-
-          "timePicker": true,
-          "timePicker12Hour": true,
-          "timePickerIncrement": 15,
-          "startDate": event.start.format('YYYY-MM-DD HH:mm A'),
-          "endDate": event.end.format('YYYY-MM-DD HH:mm A'),
-
-
-          "autoApply": true,
-          "locale": {
-
-            "timePicker12Hour": true,
-            "format": "YYYY-MM-DD HH:mm A",
-            "separator": " - ",
-        }
-    });
 
 
 
 
-        $('#ModalEdit #update_id').val(event.id);
-        $('#ModalEdit #title').val(event.title);
-        $('#ModalEdit #venue').val(event.venue);
-        $('#ModalEdit #organization').val(event.organization);
-        $('#ModalEdit #organization1').val(event.organization);
-        $('#ModalEdit #status').val(event.status);
-        $('#ModalEdit #time').val(event.start.format('YYYY-MM-DD HH:mm A')+" - "+event.end.format('YYYY-MM-DD HH:mm A'));
-        $('#ModalEdit #cvf_no').val(event.cvf_no);
+          $('#ModalEdit #update_id').val(event.id);
+          $('#ModalEdit #title').val(event.title);
+          $('#ModalEdit #venue').val(event.venue);
+          $('#ModalEdit #organization').val(event.organization);
+          $('#ModalEdit #organization1').val(event.organization);
+          $('#ModalEdit #status').val(event.status);
+          $('#ModalEdit #time').val(event.start.format('YYYY-MM-DD HH:mm A')+" - "+event.end.format('YYYY-MM-DD HH:mm A'));
+          $('#ModalEdit #cvf_no').val(event.cvf_no);
 
-        $('#ModalEdit').modal('show');
-    });
-},
+          $('#ModalEdit').modal('show');
+      });
+  },
 
             eventDrop: function(event, delta, revertFunc) { // change of position
 
@@ -201,21 +201,21 @@ $(document).ready(function() {
 
               $("body").append(tooltip);
               $(this).mouseover(function(e) {
-                  $(this).css('z-index', 10000);
-                  $('.tooltip-demo').fadeIn('500');
-                  $('.tooltip-demo').fadeTo('10', 1.9);
-              }).mousemove(function(e) {
-                  $('.tooltip-demo').css('top', e.pageY + 10);
-                  $('.tooltip-demo').css('left', e.pageX + 20);
-              });            
-          },
+                $(this).css('z-index', 10000);
+                $('.tooltip-demo').fadeIn('500');
+                $('.tooltip-demo').fadeTo('10', 1.9);
+            }).mousemove(function(e) {
+                $('.tooltip-demo').css('top', e.pageY + 10);
+                $('.tooltip-demo').css('left', e.pageX + 20);
+            });            
+        },
 
-          eventMouseout: function(calEvent, jsEvent) {
-              $(this).css('z-index', 8);
-              $('.tooltip-demo').remove();
-          },
+        eventMouseout: function(calEvent, jsEvent) {
+          $(this).css('z-index', 8);
+          $('.tooltip-demo').remove();
+      },
 
-      });
+  });
 
 
 

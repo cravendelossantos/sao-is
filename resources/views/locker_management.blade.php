@@ -79,10 +79,10 @@
 							<label class="control-label">Update status</label><br>
 							<select class="form-control" name="m_update_status" id="m_update_status">
 								<option disabled="" selected="">Update Status</option>
-								<option value="Available">Available</option>
-								<option value="Occupied">Occupied</option>
-								<option value="Damaged">Damaged</option>
-								<option value="Locked">Locked</option>
+								<option value="1">Available</option>
+								<option value="2">Occupied</option>
+								<option value="3">Damaged</option>
+								<option value="4">Locked</option>
 
 							</select>
 							
@@ -287,18 +287,17 @@
 <br>
 					
 						<div class="table-responsive">
-							<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-
-								<table class="table table-striped table-bordered table-hover lockers-DT dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid" style="width: 100%;">
+							
+						<table class="table table-striped table-bordered table-hover dataTable" id="lockers-DT" width="100%">
 									<thead>
 
 										<th>Locker no</th>
 										<th>Floor</th>
 										<th>Building</th>
-										<th>Lessee</th>
 										<th>Status</th>
-
-
+										<th>Lessee</th>
+										<th>Action</th>
+	
 
 
 									</thead>
@@ -307,7 +306,7 @@
 
 								</table>
 							
-						</div>
+						
 					</div>
 				</div>
 			</div>
