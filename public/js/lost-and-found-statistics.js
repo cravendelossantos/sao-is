@@ -10,8 +10,7 @@ $(document).ready(function(){
 	});
 	
 
-	function LAF_currentMonthReports() {
-
+	
 		var d = new Date(),
 
 		n = d.getMonth(),
@@ -39,35 +38,38 @@ $(document).ready(function(){
 	});
 
 
-		$('.lost-and-found-reports-DT').DataTable({
-			"bPaginate" : false,
-			"bInfo" :false,
-			"bSort" : false,
-			"bFilter" : false,
-			"processing": true,
-			"serverSide": true,
-			"ajax": {
-				headers : {
-					'X-CSRF-Token' : $('input[name="_token"]').val()
-				},
-				url : "/lost-and-found/reports/list",
-				type: "POST",
-				data : {month : current_date},
-			},
-			"columns" : [
-			{data: 'claimed'},
-			{data: 'unclaimed'},
-			{data: 'donated'},
-			{data: 'total'},
-			],
 
-
-		});
-
-	}
 	
+var lost_and_found_table = $('#lost-and-found-reports-DT').DataTable({
+	"bPaginate" : false,
+	"bInfo" :false,
+	"bSort" : false,
+	"bFilter" : false,
+	"processing": true,
+	"serverSide": true,
+	"ajax": {
+		headers : {
+			'X-CSRF-Token' : $('input[name="_token"]').val()
+		},
+		url : "/lost-and-found/reports/list",
+		type: "POST",
+		data: function (d) {
+			d.LAF_stats_from = $('#LAF_stats_from').val();
+			d.LAF_stats_to = $('#LAF_stats_to').val();
+			d.school_year = $('#school_year').val();
+		},
+	},
+	"columns" : [
+	{data: 'claimed'},
+	{data: 'unclaimed'},
+	{data: 'donated'},
+	{data: 'total'},
+	],
+
 
 });
+
+
 
 $('#print').click(function(e){
 	var content = document.getElementById('report_content').innerHTML;
@@ -81,7 +83,7 @@ $('#print').click(function(e){
 
 $('#show_LAF_stats').on('click', function(){
 
-
+	lost_and_found_table.ajax.reload();
 
 
 	if ($('#LAF_stats_from').val() != ""  || $('#LAF_stats_to').val() != ""){
@@ -143,35 +145,10 @@ function drawVisualization() {
 
 
 google.setOnLoadCallback(drawVisualization);
-$('.lost-and-found-reports-DT').DataTable().destroy();
-$('.lost-and-found-reports-DT').DataTable({
-	"bPaginate" : false,
-	"bInfo" :false,
-	"bSort" : false,
-	"bFilter" : false,
-	"processing": true,
-	"serverSide": true,
-	"ajax": {
-		headers : {
-			'X-CSRF-Token' : $('input[name="_token"]').val()
-		},
-		url : "/lost-and-found/reports/list",
-		type: "POST",
-		data: function (d) {
-			d.LAF_stats_from = $('#LAF_stats_from').val();
-			d.LAF_stats_to = $('#LAF_stats_to').val();
-			d.school_year = $('#school_year').val();
-		},
-	},
-	"columns" : [
-	{data: 'claimed'},
-	{data: 'unclaimed'},
-	{data: 'donated'},
-	{data: 'total'},
-	],
 
 
-});
 $('#try').hide();
 });
 
+
+});

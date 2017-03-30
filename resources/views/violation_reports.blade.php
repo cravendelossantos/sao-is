@@ -190,21 +190,13 @@
 
           <div class="col-md-10 col-md-offset-1">
             <div class="table-responsive">
-
-
-<!-- 
-          <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-
- -->
-            <br>
-            <table class="table table-striped table-bordered table-hover violation-reports-reports-DT DataTable" id="violation-reports-reports-DT" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px; width: 100%;">
+          
+          <table class="table table-striped table-bordered table-hover dataTable" id="violation-reports-reports-DT" width="100%">
 
               <thead>
                 <tr>
                   <th>Name</th>
-<!--                   <th>Last Name</th> -->
                   <th>Course</th>
-<!--                   <th>Complainant</th> -->
                   <th>Date Reported</th>
                   <th>Offense</th>
                   <th>Offense No</th>

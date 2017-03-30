@@ -1,17 +1,17 @@
 $(document).ready(function(){
 
-		tinymce.init({
-			selector: "textarea",
-			plugins: [
-				"advlist lists textcolor colorpicker autoresize print",
-			],
-			toolbar: [ "print | undo redo | styleselect | fontselect | forecolor | fontsizeselect",
-				"bold italic underline | alignleft aligncenter alignright alignjustify | indent outdent | bullist numlist",
-			],
-			fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 40pt',
-			menubar: 'file'
-		});
-		
+	tinymce.init({
+		selector: "textarea",
+		plugins: [
+		"advlist lists textcolor colorpicker autoresize print",
+		],
+		toolbar: [ "print | undo redo | styleselect | fontselect | forecolor | fontsizeselect",
+		"bold italic underline | alignleft aligncenter alignright alignjustify | indent outdent | bullist numlist",
+		],
+		fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 40pt',
+		menubar: 'file'
+	});
+
 	var lockers_table = $('#lockers-DT').DataTable({
 		"processing": true,
 		"serverSide": true,
@@ -139,7 +139,7 @@ $('#location_sort').change(function(){
 
 
 
-$('.lockers-DT').on('click', 'tr', function(){
+$('#lockers-DT').on('click', 'tr', function(){
 	var tr_id = $(this).attr('id');
 	$('#occupancy_div').hide();
 	$('#m_update_status').prop('selectedIndex',0);
@@ -246,22 +246,13 @@ $('#locker_update').click(function(e){
 
 	}).done(function(data){
 
-	//$('#locker_status_update')[0].reset();
-	//locker_contract, return occupied data from the backend and open the contract div
 	$('#occupancy_div').hide();
 	$('#lockers_modal').modal('hide');
 	
 	swal("Success", "Locker Updated!", "success");
 	$('#location_sort').prop('selectedIndex', 0);
 	$('#status_sort').prop('selectedIndex', 0);
-	//printlockercontract
-	/*if (data['occupied'] == true)
-	{
-		console.log($('#c_fname').val());
-		$('#locker_contract').show();
-		$('#c_fname').html($('#m_lessee_name').val());
 
-	}*/
 	lockers_table.ajax.reload();
 	$('form#locker_status_update')[0].reset();
 });

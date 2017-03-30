@@ -11,12 +11,7 @@ $(document).ready(function(){
  
 
 
-
-
-
-
-function getStats(){
-  var v_stats_table = $('.violation-stats-DT').DataTable({
+  var v_stats_table = $('#violation-stats-DT').DataTable({
     "bPaginate" : false,
     "bInfo" :false,
     "bSort" : false,
@@ -34,7 +29,7 @@ function getStats(){
         d.v_stats_to = $('#v_stats_to').val();
         d.school_year = $('#school_year').val();
       },
-    // data : {month : current_date},
+    
   },
   "columns" : [
   {data : 'cams'},
@@ -48,7 +43,7 @@ function getStats(){
 
 });
 
-}
+
 
 
 $('#show_v_stats').click(function (e){
@@ -58,33 +53,52 @@ $('#show_v_stats').click(function (e){
   {
     $('#report_from').val("");
     $('#report_to').val("");
-    getStats();
+    drawVisualization();
+    v_stats_table.ajax.reload();  
   }
   else 
   {
     $('#report_from').val("From: " + $('#v_stats_from').val());
     $('#report_to').val("To: " + $('#v_stats_to').val());
-    getStats();
+    drawVisualization();
+   v_stats_table.ajax.reload();
   }
-  
-        // getData();
+  });
+  drawVisualization();
 
-        drawVisualization();
+        
         function drawVisualization() {
           var options = {
+       is3D: true,
+             annotations: {
+      
+    textStyle: {
+      fontName: 'Times-Roman',
+      fontSize: 14,
+      bold: true,
+      italic: true,
+      // The color of the text.
+      color: 'white',
 
-            is3D: true,
-
+      // The color of the text outline.
+      auraColor: 'black',
+      // The transparency of the text.
+            
+    }
+  },
+  chartArea: {
+   top: 100,
+   height: '40%' 
+},
             bar: {
-              groupWidth: "90%"
+              groupWidth: "80%"
             },
-            legend: { 
-              position: "right" 
-            },
+            legend: { position: "none" },
+             width: 800,
             backgroundColor: { fill:'transparent' },
             hAxis : {title:'Colleges', titleTextStyle:{color:'blue'}},
-            vAxis : {title:'Students', titleTextStyle:{color:'red'}},
-            
+            vAxis : {title:'Number of Students', titleTextStyle:{color:'red'}},
+                        
           };
 
 
@@ -105,23 +119,11 @@ $('#show_v_stats').click(function (e){
           var items = (response.data);
                   var c_data = google.visualization.arrayToDataTable([
          ['Department', { role: 'annotation' }, 'Number of Students', { role: 'style' }],
-         ['College of Arts and Sciences', 'CAS', items[0].cas, 'red'],      
-         ['College of Arts and Sciences', 'CAS', items[0].coecsa, 'blue'],       
-         ['College of Arts and Sciences', 'CAS', items[0].cithm, 'green'],   
-
-       ['College of Arts and Sciences', 'CAS', items[0].cams ,'red'],   
+         ['College of Allied Medical Sciences', 'CAMS', items[0].cams, 'blue'],      
+         ['College of Arts and Sciences', 'CAS', items[0].cas, 'green'],       
+         ['College of Engineering, Computer Studies and Architecture', 'COECSA', items[0].coecsa, 'orange'],   
+         ['College of International Tourism and Hospitality Management', 'CITHM', items[0].cithm ,'red'],   
       ]);
-/*
-          var c_data = new google.visualization.DataTable();
-          c_data.addColumn('string', 'Department');
-          c_data.addColumn({type:'string', role:'annotation'});
-          c_data.addColumn('number', 'Number of Students');
-          c_data.addRows([['College of Allied Medicine', 'CAMS', items[0].cams],
-            ['College of Arts and Sciences', 'CAS', items[0].cas],
-            ['College of Engineering, Computer Studies and Architecture', 'COECSA', items[0].coecsa],
-            ['College of International Tourism and Hospitality Managemet', 'CITHM', items[0].cithm],
-            ['College of Business Administration', 'CBA', items[0].cba],
-            ]);*/
 
 
 
@@ -134,4 +136,3 @@ $('#show_v_stats').click(function (e){
        }
 
      });
-});

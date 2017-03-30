@@ -152,17 +152,10 @@
               <div class="row">
 
                <div class="col-md-10 col-md-offset-1">
-                 <div id="visualization" class="" style="width: 900px; height: 400px; display: block; margin: auto;"></div>
+                 <div id="visualization" class="" style="width: 900px; height: 400px;"></div>
+
                  <div class="table-responsive">
-
-
-
-                  <!--                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"> -->
-
-
-
-                  <table class="table table-striped table-bordered table-hover violation-stats-DT DataTable" id="violation-stats-DT" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px; width: 100%;">
-                           
+                  <table class="table table-striped table-bordered table-hover dataTable" id="violation-stats-DT" width="100%">
                     <thead>
 
                       <th>CAMS</th>
@@ -176,7 +169,7 @@
 
 
                   </table>
-                  <!--       </div> -->
+                  
                 </div>
               </div>
             </div>

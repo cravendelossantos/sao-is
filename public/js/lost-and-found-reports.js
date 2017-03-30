@@ -46,10 +46,8 @@ $(document).ready(function(){
 
     }
 
-});
 
 
-function getLAFReports(){
 
 
  var lost_and_found = $('.lost-and-found').DataTable({
@@ -88,13 +86,13 @@ function getLAFReports(){
   
 });
 
-  }
+
 
 
  $('#show_LAF_stats').on('click', function(){
 
 
-getLAFReports();
+lost_and_found.ajax.reload();
 
 
 
@@ -106,6 +104,8 @@ getLAFReports();
 
 
 
+
+});
 
 });
 

@@ -212,7 +212,7 @@ Route::post('/violation', 'sysController@postViolation');
 Route::get('/sanctions', 'SanctionController@showSanctions');
 Route::get('/sanctions/reports', 'SanctionController@showSanctionsReports');
 Route::post('/sanctions/search/student' , 'SanctionController@searchStudent');
-Route::post('/sanctions/student-violation/records' ,  'SanctionController@showStudentViolations');
+// Route::post('/sanctions/student-violation/records' ,  'SanctionController@showStudentViolations');
 Route::get('/sanctions/violation-details' , 'SanctionController@getViolationDetails');
 Route::get('/sanctions/update-status' , 'SanctionController@getUpdateStatus');
 Route::post('/sanctions/update-status' , 'SanctionController@postUpdateStatus');

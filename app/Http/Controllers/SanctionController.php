@@ -20,8 +20,6 @@ use DB;
 
 class SanctionController extends Controller
 {
-
-
     public function __construct()
     {
         $this->middleware('roles');
@@ -38,72 +36,23 @@ class SanctionController extends Controller
         $school_year_selection = SchoolYear::schoolYearSelection();
         $signees = User::all();
 
-
-
-
         return view('sanction_reports', ['school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year, 'signees' => $signees]);
     }
 
     public function searchStudent(Request $request)
     {
-       
-        $sanctions_student = ViolationReport::select('*')
-            ->join('students', 'violation_reports.student_id' , '=' , 'students.student_no')
-            ->join('violations', 'violation_reports.violation_id', '=', 'violations.id');
-                                               
-
-        return Datatables::of($sanctions_student)
-            ->editColumn('status', function($violation_status){
-                if ($violation_status->status == "Pending"){
-                    $badge = '<center><span class="label label-warning"><big>Pending</big></span></center>';
-                } elseif ($violation_status->status == "On Going") {
-                    $badge = '<center><span class="label label-info"><big>On Going</big></span></center>';
-                } else {
-                    $badge = '<center><span class="label label-success"><big>Completed</big></span></center>';
-                }
-                    return $badge;
-            })
-            ->editColumn('rv_id', function($data){
-                return '<p>'. $data->rv_id .'</p>';
-            })
-            ->editColumn('offense_no', function($data){
-                return '<center>'. $data->offense_no .'</center>';
-            })
-            ->editColumn('student_details', function($student){
-                return '<p>'. $student->first_name. " " .$student->last_name. ' ('. $student->current_status . ') <br>'. $student->student_no. '<br>' . $student->year_level .' Year / '. $student->course .'</p>';
-            })
-            ->filter(function ($query) use ($request) {
-                if ($request->has('sanction_student_no') and $request->has('v_reports_offense_level')){
-                    $query->where('student_id', 'like', "%{$request->get('sanction_student_no')}%")->where('violation_reports.offense_level' , $request['v_reports_offense_level']);
-                }else{
-                    $query->where('student_id', 'like', "%{$request->get('sanction_student_no')}%");
-                }
-                
-
-            })
-            ->make(true);
-
-    }
-
-    public function showStudentViolations(Request $request)
-    {
-/*
-     return Datatables::eloquent(ViolationReport::query()->leftJoin('students', 'violation_reports.student_id', '=', 'students.student_no')
-            ->join('violations', 'violation_reports.violation_id', '=', 'violations.id')
-                )->make(true);	*/	
+        return Sanction::findStudent($request);
     }
 
     public function getViolationDetails(Request $request)
     {
-
         $violation_details = ViolationReport::where('rv_id', $request['id'])->first();
         return response()->json(array('response' => $violation_details));
-
     }
 
     public function getUpdateStatus(Request $request)
     {
-            $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
             'sanction_status' => 'required',                   
         ]);
 
@@ -111,8 +60,6 @@ class SanctionController extends Controller
             return Response::json(['success'=> false, 'errors' =>$validator->getMessageBag()->toArray()],400); 
           
         }
-
-
     }
 
     public function postUpdateStatus(Request $request)
@@ -168,57 +115,51 @@ class SanctionController extends Controller
     public function getSuspension(Request $request)
     {
 
-        if ($request['suspension_exclusion'] == 'Suspend')
-        {
-         $messages = [
+        if ($request['suspension_exclusion'] == 'Suspend'){
+            $messages = [
             'suspension_days.required' => 'The no of suspension days is required',
-              '_suspension_student_no.unique' => 'This student is already excluded',
+            '_suspension_student_no.unique' => 'This student is already excluded',
             'suspension_violation_id.unique' => 'The violation already added in Suspensions',
 
-        ];
+            ];
 
-        $validator = Validator::make($request->all(),[
-            'suspension_days' => 'required|numeric|min:5',
-            'suspension_violation_id' => 'required|unique:suspensions,violation_id',
-            '_suspension_student_no' => 'unique:exclusions,student_id',
+            $validator = Validator::make($request->all(),[
+                'suspension_days' => 'required|numeric|min:5',
+                'suspension_violation_id' => 'required|unique:suspensions,violation_id',
+                '_suspension_student_no' => 'unique:exclusions,student_id',
 
 
-        ],$messages);
- if ($validator->fails()) {
-            return Response::json(['success'=> false, 'errors' =>$validator->getMessageBag()->toArray()],400); 
-          
-        }
+                ],$messages);
+            if ($validator->fails()) {
+                return Response::json(['success'=> false, 'errors' =>$validator->getMessageBag()->toArray()],400); 
+
+            }
         }
 
 
         else if ($request['suspension_exclusion'] == 'Exclude'){
-        $messages = [
-          
+            $messages = [
+
             'suspension_violation_id.unique' => 'The violation already added in Suspensions',
             '_suspension_student_no.unique' => 'This student is already excluded',
-        ];
+            ];
 
-        $validator = Validator::make($request->all(),[
-       
-            'suspension_violation_id' => 'required|unique:suspensions,violation_id',
-            '_suspension_student_no' => 'unique:exclusions,student_id',
+            $validator = Validator::make($request->all(),[
 
-        ],$messages);
- if ($validator->fails()) {
-            return Response::json(['success'=> false, 'errors' =>$validator->getMessageBag()->toArray()],400); 
-          
-        }
+                'suspension_violation_id' => 'required|unique:suspensions,violation_id',
+                '_suspension_student_no' => 'unique:exclusions,student_id',
+
+                ],$messages);
+            if ($validator->fails()) {
+                return Response::json(['success'=> false, 'errors' =>$validator->getMessageBag()->toArray()],400); 
+
+            }
         }
 
         else{
-
-
-                $message[] = 'Please select the sanction (suspension or exclusion)';
-        return Response::json(['success'=> false, 'errors' => $message],400);
-        }
-
-
-       
+            $message[] = 'Please select the sanction (suspension or exclusion)';
+            return Response::json(['success'=> false, 'errors' => $message],400);
+        }      
     }
 
     public function postSuspension(Request $request)
@@ -243,82 +184,54 @@ class SanctionController extends Controller
             $up_student_status = DB::table('students')->where('student_no', $request['_suspension_student_no'])->update(['current_status' => 'Excluded']);
 
             return Response::json(['success' => true, 'response' => $exclusion], 200);
-        }
-
-        
-        
+        }        
     }
 
     public function suspensionTable(Request $request)
     {
-        $suspended = Suspension::join('students', 'suspensions.student_id' , '=', 'students.student_no')->where('status', 'On going');
-        
-        return Datatables::of($suspended)
-            ->filter(function ($query) use ($request) {
-                if ($request->has('suspensions_student_no')) {
-                    $query->where('student_no', 'like', "%{$request->get('suspensions_student_no')}%");
-                }
-            })
-            ->make(true);;
+        return Suspension::table($request);
     }
-
 
     public function exclusionTable(Request $request)
     {
-        $suspended = Exclusion::join('students', 'exclusions.student_id' , '=', 'students.student_no');
-        
-        return Datatables::of($suspended)
-            ->filter(function ($query) use ($request) {
-                if ($request->has('suspensions_student_no')) {
-                    $query->where('student_no', 'like', "%{$request->get('suspensions_student_no')}%");
-                }
-            })
-            ->make(true);;
+        return Exclusion::table($request);
     }
-
 
     public function getSuspensionDetails(Request $request)
     {
-           $suspension_details = Suspension::where('id', $request['id'])->join('students' , 'suspensions.student_id' , '=' ,'students.student_no')->first();
+        $suspension_details = Suspension::where('id', $request['id'])->join('students' , 'suspensions.student_id' , '=' ,'students.student_no')->first();
         return response()->json(array('response' => $suspension_details));
     }
 
 
-
-  public function getSuspensionUpdate(Request $request)
-  { 
-       $dates = explode("," , $request['all_suspension_dates']);
-
-
-       $validator = Validator::make($request->all(),[                   
+    public function getSuspensionUpdate(Request $request)
+    { 
+        $dates = explode("," , $request['all_suspension_dates']);
+        $validator = Validator::make($request->all(),[                   
             '_suspension_log_suspension_id' => 'required',
-           
-           
-        ]);
+
+
+            ]);
 
         if ($validator->fails()) {
-            return Response::json(['success'=> false, 'dates' => $dates, 'errors' =>$validator->getMessageBag()->toArray()],400); 
-          
+            return Response::json(['success'=> false, 'dates' => $dates, 'errors' =>$validator->getMessageBag()->toArray()],400);           
         }
         else
         {
-  
             $old_records = SuspensionLog::select('day')->where('suspension_id', $request['_suspension_log_suspension_id'])->get();
 
-
             if ($old_records->isEmpty()) {     
-               
+            } 
+            else {
 
-            } else {
-
-            foreach ($old_records as $old_record) {
+                foreach ($old_records as $old_record) {
                 //from db
-             $old_dates[] =  $old_record->day;
+                   $old_dates[] =  $old_record->day;
 
-            }
+               }
 
 
-            foreach ($dates as $date) {
+               foreach ($dates as $date) {
                 $days[] = $date; 
                 if ($date > Carbon::now()) {
                     $message = ['msg' => 'Please select dates before '.Carbon::tomorrow()->format('Y-m-d')]; 
@@ -326,9 +239,7 @@ class SanctionController extends Controller
                 }        
             }
 
-
             $result = array_intersect($days, $old_dates);
-
 
             foreach ($result as $each_result) {
                 $same_days[] = $each_result;
@@ -337,126 +248,90 @@ class SanctionController extends Controller
             if (count($result) > 0){
                 //parehas lahat
                 $message = ['msg' => 'Dates already exist in the selected suspension:', 'dates' => $same_days, ]; 
-            return Response::json(['success'=> false, 'result' => $result, 'errors' => $message],400); 
+                return Response::json(['success'=> false, 'result' => $result, 'errors' => $message],400); 
 
             } 
-            
         }
     }
 }
 
-  public function postSuspensionUpdate(Request $request)
-  {
+
+public function postSuspensionUpdate(Request $request)
+{
     $dates = explode("," , $request['all_suspension_dates']);
     $days_count = count($dates);
 
+    $old_records = SuspensionLog::select('day')->where('suspension_id', $request['_suspension_log_suspension_id'])->get();
 
-
-            $old_records = SuspensionLog::select('day')->where('suspension_id', $request['_suspension_log_suspension_id'])->get();
-
-            if ($old_records->isEmpty()) {
+    if ($old_records->isEmpty()) {
                 //insert with new dates, walang existing eh
-                
-                  foreach ($dates as $date) {
-                    
-                    $new_dates[] = $date;
-                    $new_suspension_log = new SuspensionLog();
-                    $new_suspension_log->day = Carbon::parse($date)->format('Y-m-d');
-                    $new_suspension_log->suspension_id = $request['_suspension_log_suspension_id'];
-                    $new_suspension_log->student_id = $request['_suspension_log_student_no'];
-                    $new_suspension_log->save();
-    
-                }
 
-                
-    
-            } else {
+        foreach ($dates as $date) {
 
-            
-                //compare dates
-            foreach ($old_records as $old_record) {
-                //from db
-             $old_dates[] =  $old_record->day;
+            $new_dates[] = $date;
+            $new_suspension_log = new SuspensionLog();
+            $new_suspension_log->day = Carbon::parse($date)->format('Y-m-d');
+            $new_suspension_log->suspension_id = $request['_suspension_log_suspension_id'];
+            $new_suspension_log->student_id = $request['_suspension_log_student_no'];
+            $new_suspension_log->save();
+        }
+    } 
+    else {
+        foreach ($old_records as $old_record) {
+            $old_dates[] =  $old_record->day;
+        }
 
-            }
+        foreach ($dates as $date) {
+            $days[] = $date;
+        }
 
-            foreach ($dates as $date) {
-                $days[] = $date;
-            }
+        $result = array_intersect($days, $old_dates);
+        $different_days = array_diff($days, $old_dates);
 
-            $result = array_intersect($days, $old_dates);
-            $different_days = array_diff($days, $old_dates);
+        foreach ($result as $each_result) {
+            $same_days[] = $each_result;
+        }
 
-            foreach ($result as $each_result) {
-                $same_days[] = $each_result;
-            }
-
-            if (count($result) > 0){
+        if (count($result) > 0){
                 //parehas lahat
-                $message = ['msg' => 'Dates already exist in the selected suspension:', 'dates' => $same_days, ]; 
+            $message = ['msg' => 'Dates already exist in the selected suspension:', 'dates' => $same_days, ]; 
             return Response::json(['success'=> false, 'result' => $result, 'errors' => $message],400); 
 
-            } 
-            else
-            {
-                foreach ($different_days as $different_day) {
-        
-                    $new_dates[] = $different_day;
-                    $new_suspension_log = new SuspensionLog();
-                    $new_suspension_log->day = Carbon::parse($different_day)->format('Y-m-d');
-                    $new_suspension_log->suspension_id = $request['_suspension_log_suspension_id'];
-                    $new_suspension_log->student_id = $request['_suspension_log_student_no'];
-                    $new_suspension_log->save();
-    
-                }
+        } 
+        else
+        {
+            foreach ($different_days as $different_day) {
 
-                
+                $new_dates[] = $different_day;
+                $new_suspension_log = new SuspensionLog();
+                $new_suspension_log->day = Carbon::parse($different_day)->format('Y-m-d');
+                $new_suspension_log->suspension_id = $request['_suspension_log_suspension_id'];
+                $new_suspension_log->student_id = $request['_suspension_log_student_no'];
+                $new_suspension_log->save();
             }
-}
-            //check days less than today and minus it to total days
-            $today = Carbon::now();    
+        }
+    }
 
-            //new dates deduct sa total sus.days
+    $today = Carbon::now();        
 
+    $total_dates = Suspension::select('suspension_days')
+    ->where('id', $request['_suspension_log_suspension_id'])->first();
 
-  /*          $past_dates = SuspensionLog::select('day')
-                ->where('suspension_id', $request['_suspension_log_suspension_id'])
-                ->where('day','<=', $today)
-                ->groupBy('day')
-                ->get()
-                ->count();  */     
+    $days_update = $total_dates['suspension_days'] - count($new_dates);
 
-            $total_dates = Suspension::select('suspension_days')
-                ->where('id', $request['_suspension_log_suspension_id'])->first();
+    if ($days_update  <= 0){
+        $update_status = Suspension::where('id', $request['_suspension_log_suspension_id'])
+        ->update(['status' => 'Completed', 'suspension_days' => 0]);
+        ViolationReport::where('rv_id' , $request['_suspension_log_violation_id'])
+        ->update(['status' => 'Completed']);
 
+    } else {
+        $update_status = Suspension::where('id', $request['_suspension_log_suspension_id'])
+        ->update(['status' => 'On Going', 'suspension_days' => $days_update]);
+    }
 
-            //check total
-            
-           // $past_dates_count  = count($past_dates);       
-            $days_update = $total_dates['suspension_days'] - count($new_dates);
+    return Response::json(['success' => true, 'response' => $new_suspension_log], 200);        
 
-            if ($days_update  <= 0){
-                $update_status = Suspension::where('id', $request['_suspension_log_suspension_id'])
-                    ->update(['status' => 'Completed', 'suspension_days' => 0]);
-                ViolationReport::where('rv_id' , $request['_suspension_log_violation_id'])
-                    ->update(['status' => 'Completed']);
-
-            } else {
-                $update_status = Suspension::where('id', $request['_suspension_log_suspension_id'])
-                    ->update(['status' => 'On Going', 'suspension_days' => $days_update]);
-            }
-            
-            return Response::json(['success' => true, 'response' => $new_suspension_log], 200);        
-
-        /*    $update_suspension = Suspension::where('id', $request['_suspension_log_suspension_id'])
-                ->update(['suspension_days'] => )
-                ->first();
-*/
-
-
-            //return Response::json(['success' => true, 'response' => $update_status], 200);
-  }
-
-
+    }
 
 }

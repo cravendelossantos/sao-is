@@ -287,9 +287,9 @@
 			@endif
 
 
-			<li ui-sref-active="active" class="{{ Request::is('notes') ? 'active' : 'null' }}">
+			<!-- <li ui-sref-active="active" class="{{ Request::is('notes') ? 'active' : 'null' }}">
 				<a href="/notes"><i class="fa fa-clipboard"></i> <span class="nav-label ng-binding">Notes</span> </a>
-			</li>
+			</li> -->
 
 			@if ( Auth::user()->roles->first()->name == 'Admin')
 			<li class="{{ Request::is('settings/*') ? 'active' : 'null' }}">

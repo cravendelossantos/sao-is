@@ -19,199 +19,129 @@ use App\SchoolYear;
 
 class OrganizationsRenewalController extends Controller
 {
-       public function __construct()
+    public function __construct()
     {
-    	$this->middleware('roles');
+        $this->middleware('roles');
     }
-    
- 	    public function showOrganizationsRenewal()
+
+    public function showOrganizationsRenewal()
     {
-      $current_school_year = SchoolYear::currentSchoolYear();
+        $current_school_year = SchoolYear::currentSchoolYear();
         $school_year_selection = SchoolYear::schoolYearSelection();
-
-       $organizations = DB::table('requirements')->where('school_year',$current_school_year)->get();
-      return view('organizations_renewal',['organizations' => $organizations],['current_school_year' => $current_school_year]);
+        $organizations = DB::table('requirements')
+        ->where('school_year',$current_school_year)
+        ->get();
+    
+        return view('organizations_renewal',['organizations' => $organizations],['current_school_year' => $current_school_year]);
     }
 
-      public function showOrganizationsRenewalList()
+    public function showOrganizationsRenewalList()
     {
-       $current_school_year = SchoolYear::currentSchoolYear();
+        $current_school_year = SchoolYear::currentSchoolYear();
         $school_year_selection = SchoolYear::schoolYearSelection();
 
         return view('organizations_renewal_list',['school_year_selection' => $school_year_selection],['current_school_year' => $current_school_year]);
     }
 
-
-      public function showOrganizationsRenewalAdd()
+    public function showOrganizationsRenewalAdd()
     {
-
-      $current_school_year = SchoolYear::currentSchoolYear();
+        $current_school_year = SchoolYear::currentSchoolYear();
         return view('organizations_renewal_add',['current_school_year' => $current_school_year]);
     }
 
-
-    //     public function getOrganizationList()
-    // {
-      
-    //     $organizations = DB::table('requirements')->get();
-    //   return view('organizations_renewal',['organization' => $organizations]);
-    // }
-
-
-        public function getRequirementsTable()
+    public function getRequirementsTable()
     {
-
         return Datatables::eloquent(Requirements::query())
         ->addColumn('action', function ($req) {
-                return '<center><a href="#edit-'.$req->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                    <a href="#delete-'.$req->id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
-            })
+            return '<center><a href="#edit-'.$req->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+        <a href="#delete-'.$req->id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
+        })
         ->make(true);
+    }   
 
-    }
-
-
-
-
-        public function getRequirementsByName(Request $request)
+    public function getRequirementsByName(Request $request)
     {
-       // $requirements = Requirements::where('organization', $request['organizationName'])->first();
-       // return response()->json(array('response' => $requirements));
-
-       //  $requirements = DB::table('requirements')->where('organization', $request['organizationName'])->get();
-
-       // return Datatables::of($requirements)->make(true);
-
-
-
-        return Datatables::eloquent(Requirements::query()->where('organization',$request['organizationName']))->first()->make(true); 
-
-
-
-
-    }
+        return Datatables::eloquent(Requirements::query()
+        ->where('organization',$request['organizationName']))
+        ->first()->make(true);  
+    }   
 
     public function searchRequirements(Request $request)
     {
+        $term = $request->organization;
+        $data = Requirements::where('organization', $request['organization'])
+        ->where('school_year',$request['year'])
+        ->first();
 
-
-   $term = $request->organization;
-          
-    $data = Requirements::where('organization', $request['organization'])->where('school_year',$request['year'])->first();
-
-     return response()->json($data);
-// return response()->json(array('response' => $data));
-
-
+        return response()->json($data);
     }
 
-        public function searchRequirementsByYear(Request $request)
+    public function searchRequirementsByYear(Request $request)
     {
-      
-    
-
-    return Datatables::eloquent(Requirements::query()
-      ->where('school_year',$request['school_year']))
-      ->addColumn('action', function ($req) {
-                return '<center><a href="#edit-'.$req->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-                    <a href="#delete-'.$req->id.'" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> Edit</a></center>';
-            })
-        ->make(true);
+        return Requirements::filterYear($request);  
     }
 
-        public function searchRequirementsByYearAndStatus(Request $request)
-    {
-
-if ($request['sort_by'] == "All")
-
-     $data = DB::table('requirements')->where('school_year',$request['school_year'])->get();
-
-
-elseif ($request['sort_by'] == "Submitted All Requirements")
-
-     $data = DB::table('requirements')->where('school_year',$request['school_year'])->where('requirement1',1)->where('requirement2',1)->where('requirement3',1)->where('requirement4',1)->where('requirement5',1)->where('requirement6',1)->where('requirement7',1)->where('requirement8',1)->where('requirement9',1)->get();
-
-elseif ($request['sort_by'] == "Not Submitted All Requirements")
-
-     $data = DB::table('requirements')->where('school_year',$request['school_year'])->where('requirement1',0)->orWhere('requirement1',0)->where('requirement2',1)->orWhere('requirement2',0)->where('requirement3',1)->orWhere('requirement3',0)->where('requirement4',1)->orWhere('requirement4',0)->where('requirement5',1)->orWhere('requirement5',0)->where('requirement6',1)->orWhere('requirement6',0)->where('requirement7',1)->orWhere('requirement7',0)->where('requirement8',1)->orWhere('requirement8',0)->where('requirement9',1)->orWhere('requirement9',0)->get();
-    
-    return response()->json(['data' => $data]);
+    public function searchRequirementsByYearAndStatus(Request $request)
+    {   
+        return Requirements::filterYearAndStatus($request);
     }
 
-
-        public function postRequirementsRenewalAdd(Request $request)
+    public function postRequirementsRenewalAdd(Request $request)
     {
-            
-            
-            $validator = Validator::make($request->all(),[
-            'organizationName' => 'required|string|max:255',
-            'deadline' => 'required|date',
-           
+        $validator = Validator::make($request->all(),[
+        'organizationName' => 'required|string|max:255',
+        'deadline' => 'required|date',
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails()){
             return response()->json(array('success'=> false, 'errors' =>$validator->getMessageBag()->toArray())); 
-          
         }
-        else {
+        else{
+            $current_time = Carbon::now()->format('Y-m-d');
+            $sy = DB::table('school_years')->select('school_year')
+            ->where('term_name' , 'School Year')
+            ->whereDate('start', '<' ,$current_time)
+            ->whereDate('end' , '>', $current_time)
+            ->first();
 
-
-     $current_time = Carbon::now()->format('Y-m-d');
-
-
-
-$sy = DB::table('school_years')->select('school_year')->where('term_name' , 'School Year')->whereDate('start', '<' ,$current_time)->whereDate('end' , '>', $current_time)->first();
-
-
- $asdad = json_encode($sy);
-
-
-     
-          $requirement = new Requirements();
-          $requirement->school_year =  $request['school_year'];
-          $requirement->organization =  $request['organizationName'];
-          $requirement->deadline     =  $request['deadline'];
-          $requirement->requirement1 = $request['requirement1'];
-          $requirement->requirement2 = $request['requirement2'];
-          $requirement->requirement3 = $request['requirement3'];
-          $requirement->requirement4 = $request['requirement4'];
-          $requirement->requirement5 = $request['requirement5'];
-          $requirement->requirement6 = $request['requirement6'];
-          $requirement->requirement7 = $request['requirement7'];
-          $requirement->requirement8 = $request['requirement8'];
-          $requirement->requirement9 = $request['requirement9'];
-          $requirement->requirement10 = $request['requirement10'];
-          $requirement->requirement11 = $request['requirement11'];
-          $requirement->save();
-        return response()->json(array(
+            $requirement = new Requirements();
+            $requirement->school_year =  $request['school_year'];
+            $requirement->organization =  $request['organizationName'];
+            $requirement->deadline     =  $request['deadline'];
+            $requirement->requirement1 = $request['requirement1'];
+            $requirement->requirement2 = $request['requirement2'];
+            $requirement->requirement3 = $request['requirement3'];
+            $requirement->requirement4 = $request['requirement4'];
+            $requirement->requirement5 = $request['requirement5'];
+            $requirement->requirement6 = $request['requirement6'];
+            $requirement->requirement7 = $request['requirement7'];
+            $requirement->requirement8 = $request['requirement8'];
+            $requirement->requirement9 = $request['requirement9'];
+            $requirement->requirement10 = $request['requirement10'];
+            $requirement->requirement11 = $request['requirement11'];
+            $requirement->save();
+            
+            return response()->json(array(
             'success' => true,
             'response' => $requirement,
             'response1' =>$current_time,
             'response4' =>$sy,
-
-
-
-        ));
+            ));
         }
     }
 
-
-        public function postRequirementsRenewalUpdate(Request $request)
-  {
-    $validator = Validator::make($request->all(),[
-
-      'organizationName' => 'required|string|max:255',
-                         
-      ]);
-
-        if ($validator->fails()) {
+    public function postRequirementsRenewalUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+        'organizationName' => 'required|string|max:255',
+        ]);
+        
+        if ($validator->fails()){
             return response()->json(array('success'=> false, 'errors' =>$validator->getMessageBag()->toArray())); 
-          
         }
-    else {
-  
-      $requirements = DB::table('requirements')->where('id', $request['update_id'])->update([     
-            
+        else{
+            $requirements = DB::table('requirements')
+            ->where('id', $request['update_id'])->update([     
             'requirement1' => $request['requirement1'],
             'requirement2' => $request['requirement2'],
             'requirement3' => $request['requirement3'],
@@ -223,18 +153,9 @@ $sy = DB::table('school_years')->select('school_year')->where('term_name' , 'Sch
             'requirement9' => $request['requirement9'],
             'requirement10' => $request['requirement10'],
             'requirement11' => $request['requirement11'],
-         
-        ]);
-      
-      }
-
+            ]);
+        }
     }
-    
-
- 
-
-
-
 }
 
 

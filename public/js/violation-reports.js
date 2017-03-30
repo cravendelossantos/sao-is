@@ -8,11 +8,7 @@ $(document).ready(function(){
     format: 'yyyy-mm-dd',
   });
 
-});
-
-function getReports(){
-    $('.violation-reports-reports-DT').DataTable().destroy();
-    var v_reports_table = $('.violation-reports-reports-DT').DataTable({
+    var v_reports_table = $('#violation-reports-reports-DT').DataTable({
 
       "bPaginate" : false,
       "bInfo" :false,
@@ -60,7 +56,6 @@ function getReports(){
 
 });
 
-  }
 
 
 
@@ -89,7 +84,7 @@ $('#show_v_reports').click(function (e){
     {
       $('#report_group').val("");
     }
-    getReports();
+    v_reports_table.ajax.reload();
 
   }
 
@@ -114,7 +109,7 @@ $('#show_v_reports').click(function (e){
     {
       $('#report_group').val("");
     }
-    getReports();
+    v_reports_table.ajax.reload();
   }
 
 
@@ -131,6 +126,15 @@ $('#course').change(function (e){
 $('#college').change(function (e){
   e.preventDefault();
 
+});
+
+$('#v_stats_range .input-daterange').datepicker({
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+  });
+ 
 });
 
 

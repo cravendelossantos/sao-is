@@ -12,14 +12,13 @@ use Input;
 use Yajra\Datatables\Facades\Datatables;
 use Validator;
 
-
-
 class ActivityRecordsController extends Controller
 {
 	public function importExport()
 	{
 		return view('activity_records');
 	}
+	
 	public function downloadExcel($type)
 	{
 		$data = Activity::get()->toArray();
@@ -38,9 +37,9 @@ class ActivityRecordsController extends Controller
 			})->download($type);
 		}
 	}
+	
 	public function importExcel(Request $request)
 	{ 	
-
 		$mimes = array('application/vnd.ms-excel', 
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
 			'text/csv');
@@ -76,29 +75,19 @@ class ActivityRecordsController extends Controller
 				return back();
 			} 
 
-
 			catch (\Illuminate\Database\QueryException $e){
-                //dd("Please Check your file");
-		 		//dd($e);
 				$errors  = ['Please check the import file data','Import file data must match with activities table columns'];
-				return redirect('/activity-records')->with('errors', $errors); 
-				
+				return redirect('/activity-records')->with('errors', $errors); 	
 			}
 
-
 			catch (PDOException $e) {
-
 				$errors  = ['Please check the import file data','Import file data must match with activities table columns'];
 				return redirect('/activity-records')->with('errors', $errors); 
-            	//dd($e);
-
 			}    
 		}       
 		else {
 			$errors  = ['Please check your file','Only files with the following extensions are allowed: .csv .xls .xlsx'];
 			return redirect('/violation-records')->with('errors', $errors); 
-			
-
 		} 
 	}
 

@@ -176,9 +176,7 @@
     <div class="row">
       <div class="col-md-10 col-md-offset-1">
         <div class="table-responsive">
-
-          <table class="table table-striped table-bordered table-hover lost-and-found-reports-DT DataTable" id="asd" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px; width: 100%;">
-
+   <table class="table table-striped table-bordered table-hover dataTable" id="lost-and-found-reports-DT" width="100%">
             <thead>
               <tr>
                 <th>CLAIMED</th>
