@@ -8422,6 +8422,25 @@ body.md-skin {
   #page-wrapper {
     margin: 0;
   }
+  body{
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+  }
+  table {
+   page-break-inside:auto; 
+  
+  }
+   tr    {
+     background-color: #1a4567 !important;
+                -webkit-print-color-adjust: exact;
+    page-break-inside:avoid; 
+    page-break-after:auto 
+  
+  }
+
+  * {
+    font-family: 'Roboto';
+  }
 }
 
 

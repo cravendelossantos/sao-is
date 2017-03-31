@@ -23,7 +23,7 @@ $(document).ready(function(){
 	});
 
 
-	var lockers_table1 = $('.lockers1-DT').DataTable({
+	var lockers_table1 = $('#lockers1-DT').DataTable({
 		"processing": true,
 		"serverSide": true,
 		"bPaginate" : false,
@@ -51,24 +51,33 @@ $(document).ready(function(){
 		{data : 'locker_no'},
 		{data : 'floor'},
 		{data : 'building'},
-		{data : 'lessee_name'},
+		/*{data : 'lessee_name'},*/
 		{data : 'status'},		  
 
 
 		],
 
 	});
-
+ function getSY()
+ {
+ 	var date = new Date();
+var options = {year: "numeric", month: "long", day: "numeric"};
+var newdate = date.toLocaleDateString('en-US', options);
+$('#date').val(newdate);
+$('#schoolyear').val("S.Y. " + $('#school_year').val());
+ }
 
 
 
 	$('#status_sort').change(function(){
 		lockers_table1.ajax.reload();
+		getSY();
 	});
 
 
 	$('#location_sort').change(function(){
 		lockers_table1.ajax.reload();
+		getSY();
 	});
 
 

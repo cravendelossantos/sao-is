@@ -107,8 +107,8 @@
 
 				<br><br>
 				<div class="col-sm-12 text-center">
-					<h5>Student Affair's Office</h5>
-					<h5>Locker Availability</h5>
+					<h2>Student Affair's Office</h2>
+					<h3>Locker Availability</h3>
 
 
 				</div>
@@ -155,12 +155,7 @@
 					<center><div class="table-responsive">
 
 
-
-						<!-- <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"> -->
-
-
-
-						<table class="table table-striped table-bordered table-hover locker-reports-DT DataTable" id="asd" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px; width: 100%;">
+						<table class="table table-striped table-bordered table-hover dataTable" id="locker-reports-DT" width="100%">
 
 							<thead>
 								<tr>
@@ -182,15 +177,29 @@
 </div></center>
 </div>
 </div>
-
+<br><br>
 
 <div class="row" style="bottom: -10; margin-left: 10px;">
-	<label class="text-center" >Prepared by:</label><br><br> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<br> {{ Auth::user()->roles->first()->name }} , Student Affairs Office
+
+  <output>Prepared by:</output><br><br>
+   {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<br> {{ Auth::user()->roles->first()->description }} , Student Affairs Office
 </div>
 <br>
+
+@foreach ($signees as $signee)
+  @if ($signee->hasRole('Admin') and $signee->id != Auth::user()->id)
 <div class="row"   style="bottom: -10; margin-left: 10px;">
-	<label class="text-center">Noted by:</label><br><br> Ms. Lourdes C. Reyes <br>Head, Student Affairs Office 
+<output>Noted by:</output><br><br>
+  
+  {{ $signee->first_name }} {{ $signee->last_name }}
+  <br>
+  {{ $signee->roles->first()->description }}, Student Affairs Office
 </div>
+<br>
+@else
+@endif
+
+@endforeach
 
 </div>        </div>
 </div>

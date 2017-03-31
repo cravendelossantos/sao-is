@@ -130,12 +130,13 @@
       <div class="row">
 
         <br><br>
-        <div class="col-sm-12 text-center">
-          <h5>Student Affair's Office</h5>
-          <h5>Student Violation Reports</h5>
+       <div class="col-sm-12 text-center">
+          <h2>Student Affair's Office</h2>
+          <h3>Student Violation Reports</h3>
 
 
         </div>
+
 
 
         <br>
@@ -179,17 +180,17 @@
 
 
 
-          <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+          
 
 
             <br>
-            <table class="table table-striped table-bordered table-hover sanctions-DT1 dataTable" id="sanctions-DT1" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px; width: 100%;">
+                     <table class="table table-striped table-bordered table-hover dataTable" id="sanctions-DT1" width="100%">
                         <thead>
 
                           <tr>
 
                             <th>Date Committed</th>
-
+                            <th>Student Information</th>
                             <th>Violation ID</th>
                             <th>Violation Description</th>
                             <th>Offense Level</th>
@@ -201,7 +202,7 @@
 
                       </table>
 
-          </div>
+          
         </div>
         </div>
         </div>
