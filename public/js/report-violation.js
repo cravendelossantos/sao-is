@@ -76,7 +76,26 @@ var violation_reports_table = $('#violation-reports-DT').DataTable({
 */
 });	
 
-});
+	//Update
+
+	$('#violation-reports-DT').on('click', 'tr a #edit-violation', function(){
+		
+		alert(this);
+		/*$.ajax({
+			headers : {
+				'X-CSRF-Token' : $('input[name="_token"]').val()
+			},
+			type : "POST",
+			url : "/change_password",
+			data : this,
+		}).done(function(data){
+
+		});*/
+		
+		$('#edit-violation-modal').modal('show');
+	});
+
+
 
 
 $('button#report_btn').click(function(e){
@@ -776,5 +795,10 @@ $('#course').on('change', function(e) {
 
 	});
 
+
+
 });
 
+
+
+});

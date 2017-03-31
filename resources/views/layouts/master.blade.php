@@ -300,6 +300,9 @@
 
 							</li> -->
 							<li ui-sref-active="active" >
+								<a href="/colleges"><span class="nav-label ng-binding">Colleges</span> </a>
+							</li>
+							<li ui-sref-active="active" >
 								<a href="/courses"><span class="nav-label ng-binding">Courses</span> </a>
 							</li>
 

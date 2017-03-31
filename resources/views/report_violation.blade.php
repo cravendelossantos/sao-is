@@ -447,6 +447,69 @@
 	</div>
 </div>
 
+
+
+<div id="edit-violation-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					&times;
+				</button>
+				<h4 class="modal-title">Edit Violation Record</h4>
+			</div>
+
+			<form role="form" id="edit-violation-form" method="POST">
+
+				{!! csrf_field() !!}
+
+				<div class="ibox-content">
+
+					<div class="form-group">
+						<label>Violation ID</label>
+						<input type="text" readonly="" class="form-control" id="rv_id" name="rv_id">
+					</div>
+
+					
+											<div class="form-group">
+												<label>Violation</label>
+												<input type="hidden" name="violation_id" id="violation_id">
+												<select class="form-control" id="violation_selection" name="violation">
+													<option autofocus="" disabled selected >Violation</option>
+													@foreach ($violations as $violation)
+													<option> {{ $violation->name }} </option>
+													@endforeach
+												</select>
+
+												<a href="/violation-list" id="violations_import" style="display:none">Import Violations</a>
+											</div>
+										
+
+					<div class="form-group">
+						<label>Position</label>
+						<select name="complainantPosition" id="complainantPosition" class="form-control">
+							<option>Guard</option>
+							<option>Faculty</option>
+							<option>Student</option>
+						</select>
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn btn-w-m btn-primary" type="button" id="new_complainant_btn">
+							<strong>Save</strong>
+						</button>
+						<button type="button" class="btn btn-w-m btn-danger" id="cancelBtn" data-dismiss="modal">
+							<strong>Cancel</strong>
+						</button>
+					</div>
+</div>
+			</form>
+		</div>
+	</div>
+</div>
+
 <script src="/js/report-violation.js"></script>
 
 

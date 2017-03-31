@@ -7,6 +7,8 @@ use App\Student;
 
 class Course extends Model
 {
+	public $timestamps = false;
+	
     public function students()
     {
     	return $this->hasOne('App\Student');

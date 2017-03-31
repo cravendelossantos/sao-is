@@ -17,6 +17,7 @@ use App\SuspensionLog;
 use App\SchoolYear;
 use App\User;
 use DB;
+use App\Sanction;
 
 class SanctionController extends Controller
 {

@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
-@section('title', 'SAO | Courses')
+@section('title', 'SAO | Colleges')
 
 @section('header-page')
 <div class="row">
 <div class="col-md-12">
-	<h1>Courses</h1>
+	<h1>Colleges</h1>
 
 	<ol class="breadcrumb">
         <li>
@@ -15,7 +15,7 @@
             Settings
         </li>
         <li class="active">
-            <strong>Courses</strong>
+            <strong>Colleges</strong>
         </li>
 	</ol>
 </div>
@@ -30,35 +30,20 @@
 		<div class="ibox float-e-margins">
 
 			<div class="ibox-title">
-				<h2>Add course</h2>
+				<h2>Add College</h2>
 				
 			</div>
 			<div class="ibox-content">
-				<form role="form" id="courseForm" method="POST" action="">
+				<form role="form" id="collegeForm" method="POST" action="">
 					{!! csrf_field() !!}
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group ">
-								<label>Course</label>
-								<input type="text" placeholder="Course Name/Description" name="course_description" id="course_description" class="form-control" autofocus="" style="text-transform: capitalize;">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group ">
-								<label>Course Length</label>
-								<input type="number" placeholder="e.g., 4" name="course_length" id="course_length" class="form-control" autofocus="" aria-required="true">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group ">
 								<label>College</label>
-								<select class="form-control" name="college_id">
-								@foreach ($colleges as $row)
-									<option value="{{ $row->id }}">{{$row->description}}</option>
-								@endforeach
-								</select>
+								<input type="text" placeholder="College Name/Description" name="college_description" id="college_description" class="form-control" autofocus="" style="text-transform: capitalize;">
 							</div>
 						</div>
+						
 
 					</div>
 
@@ -83,7 +68,7 @@
 			<div class="ibox float-e-margins">
 
 				<div class="ibox-title">
-					<h5>Course List</h5>
+					<h5>Colleges List</h5>
 					
 				</div>
 
@@ -94,18 +79,17 @@
 						<table class="table table-striped table-bordered table-hover dataTables-example1" >
 							<thead>
 								<tr>
-									<th>Course Name</th>
-									<th>College</th>
-
+									<th>College Name</th>
+								
 								</tr>
 							</thead>
 
 							<tbody  id="tbody">
-								@foreach ($courses as $row)
+								@foreach ($colleges as $row)
 							
 								<tr>
 									<td>{{$row->description}}</td>
-									<td>{{$row->college->description}}</td>
+										
 								</tr>
 								@endforeach
 							</tbody>
@@ -127,8 +111,8 @@
 				'X-CSRF-Token' : $('input[name="_token"]').val()
 			},
 			type : "POST",
-			url : "/add/course",
-			data : $('form#courseForm').serialize(),
+			url : "/add/college",
+			data : $('form#collegeForm').serialize(),
 					}).fail(function(data){
 						 var errors = $.parseJSON(data.responseText);
 				var msg="";
@@ -149,7 +133,7 @@
 
 	
 			 	});
-				$('form#courseForm').each(function() {
+				$('form#collegeForm').each(function() {
 					this.reset();
 				});	
 				window.location.reload();

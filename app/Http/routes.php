@@ -69,7 +69,11 @@ Route::group(['middleware' => 'roles', 'roles' => ['Admin','Secretary']],functio
 
 	//Courses
 	Route::get('/courses' , 'sysController@showCourses');
-	Route::post('/add-course' , 'sysController@postCourse');
+	Route::post('/add/course' , 'sysController@postCourse');
+
+	//Colleges
+	Route::get('/colleges' , 'sysController@showColleges');
+	Route::post('/add/college' , 'sysController@postColleges');
 
 
 	// violations

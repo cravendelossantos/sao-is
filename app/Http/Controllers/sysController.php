@@ -21,6 +21,7 @@ use App\Content;
 use App\Classes\Gammu;
 use Redirect;
 use App\TextMessage;
+use App\College;
 
 class sysController extends Controller {
 	
@@ -701,18 +702,64 @@ $data = array(
 		
 	public function showCourses()
     {
-    	$courses = DB::table('courses')->get();
-        return view('courses',["courses"=>$courses]);
+    	$courses = Course::with('college')->get();
+        $colleges = College::all();
+
+        return view('courses',['courses' => $courses], ['colleges' => $colleges]);
     }
 
 	public function postCourse(Request $request)
 	{
-	   $course = new Course();
-       $course->description = $request['course_description'];
-       $course->save();
+        $validator = Validator::make($request->all(),[
+            
+            'course_description' => 'required|max:255|unique:courses,description',
+            'college_id' => 'required',
+            'course_length' => 'required|integer|between:1,5',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['success'=> false, 'errors' => $validator->getMessageBag()->toArray()],400); 
+        }
+        else {
+            
+
+            $course = new Course();
+            $course->description = ucwords($request['course_description']);
+            $course->college_id = $request['college_id'];
+            $course->no_of_years = $request['course_length'];
+            $course->save();    
+
+            return Response::json(['success'=> true, 'response' => 'Course Added!'], 200); 
+        }
 	}
 	
+    public function showColleges()
+    {
+        $courses = Course::with('college')->get();
+        $colleges = College::all();
 
-	
+        return view('colleges',['courses' => $courses], ['colleges' => $colleges]);
+    }
+
+    public function postColleges(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            
+            'college_description' => 'required|max:255|unique:colleges,description',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(['success'=> false, 'errors' => $validator->getMessageBag()->toArray()],400); 
+        }
+        else {
+    
+            $course = new College();
+            $course->description = ucwords($request['college_description']);
+            $course->save();    
+
+            return Response::json(['success'=> true, 'response' => 'College Added!'], 200); 
+        }
+    }
+
 	
 }

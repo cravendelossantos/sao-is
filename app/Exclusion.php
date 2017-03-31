@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Yajra\Datatables\Facades\Datatables;
 
 class Exclusion extends Model
 {
