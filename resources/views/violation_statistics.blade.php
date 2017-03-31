@@ -84,32 +84,19 @@
     <button type="button" class="btn btn-primary btn-xs m-l-sm pull-right" id="print">Print</button>
     <button id="save" class="btn btn-primary  btn-xs m-l-sm pull-right" onclick="save()" type="button">Save</button>
     <button id="edit" class="btn btn-primary btn-xs m-l-sm pull-right" onclick="edit()" type="button">Edit</button>
-<!--                             <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
 
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                              </div> -->
                             </div>
                           </div>
 
 
 
 
-
-
-                          <div class="row">                         
+                          <div class="row" id="report_content">                         
                               <div class="col-md-12">
                               <div class="click2edit">
-                              <div id="report_content">    
+                               
                                 <div class="ibox float-e-margins">
-                                  <div class="ibox-content">
+                                  <div class="ibox-content p-xl">
                                     <div class="row">
                                       <div class="col-sm-12 text-center">
                                         <img src="/img/officialseal1.png"  class="pic1">
@@ -120,16 +107,17 @@
 
                                       <br><br>
                                       <div class="col-sm-12 text-center">
-                                        <h5>Student Affair's Office</h5>
-                                        <h5>Violation Statistics</h5>
+                                        <h2>Student Affair's Office</h2>
+                        <h3>Student Violation Reports</h3>
 
 
-                                      </div>
+
+                                      
 
 
-                                      <br>
+                                      
                                     </div>
-
+<br>
 
                                     <div class="row">
                                       <div class="form-group col-xs-6 text-left" id="report_ranges">
@@ -146,15 +134,15 @@
                                      </div>
                                    </div>
 
-              <br><br>
 
 
               <div class="row">
 
                <div class="col-md-10 col-md-offset-1">
-                 <div id="visualization" class="" style="width: 900px; height: 400px;"></div>
+                 <div id="visualization" class="" style="width: 100%; height: 400px;"></div>
 
                  <div class="table-responsive">
+          
                   <table class="table table-striped table-bordered table-hover dataTable" id="violation-stats-DT" width="100%">
                     <thead>
 

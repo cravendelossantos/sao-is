@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Database\Eloquent\Model;
 
 class Sanction extends Model
@@ -30,6 +31,9 @@ class Sanction extends Model
                 return '<center>'. $data->offense_no .'</center>';
             })
             ->editColumn('student_details', function($student){
+                return '<p>'. $student->first_name. " " .$student->last_name. ' ('. $student->current_status . ') <br>'. $student->student_no. '<br>' . $student->year_level .' Year / '. $student->course .'</p>';
+            })
+            ->editColumn('student_information', function($student){
                 return '<p>'. $student->first_name. " " .$student->last_name. ' ('. $student->current_status . ') <br>'. $student->student_no. '<br>' . $student->year_level .' Year / '. $student->course .'</p>';
             })
             ->filter(function ($query) use ($request) {

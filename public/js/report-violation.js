@@ -76,8 +76,6 @@ var violation_reports_table = $('#violation-reports-DT').DataTable({
 */
 });	
 
-});
-
 
 $('button#report_btn').click(function(e){
 	e.preventDefault();
@@ -775,6 +773,8 @@ $('#course').on('change', function(e) {
 		}
 
 	});
+
+});
 
 });
 

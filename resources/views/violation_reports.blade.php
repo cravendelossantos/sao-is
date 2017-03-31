@@ -145,8 +145,8 @@
 
         <br><br>
         <div class="col-sm-12 text-center">
-          <h5>Student Affair's Office</h5>
-          <h5>Student Violation Reports</h5>
+          <h2>Student Affair's Office</h2>
+          <h3>Student Violation Reports</h3>
 
 
         </div>
@@ -214,14 +214,16 @@
         </div>
         <br><br>
 <div class="row" style="bottom: -10; margin-left: 10px;">
-  <label class="text-center" >Prepared by:</label><br><br> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<br> {{ Auth::user()->roles->first()->description }} , Student Affairs Office
+
+  <output>Prepared by:</output><br><br>
+   {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<br> {{ Auth::user()->roles->first()->description }} , Student Affairs Office
 </div>
 <br>
 
 @foreach ($signees as $signee)
   @if ($signee->hasRole('Admin') and $signee->id != Auth::user()->id)
 <div class="row"   style="bottom: -10; margin-left: 10px;">
-  <label class="text-center">Noted by:</label><br><br>
+<output>Noted by:</output><br><br>
   
   {{ $signee->first_name }} {{ $signee->last_name }}
   <br>

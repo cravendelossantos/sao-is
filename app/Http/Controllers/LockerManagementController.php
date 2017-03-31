@@ -14,6 +14,7 @@ use Response;
 use App\LockerLocation;
 use Auth;
 use App\Content;
+use App\User;
 
 class LockerManagementController extends Controller
 {
@@ -208,26 +209,28 @@ class LockerManagementController extends Controller
         $locations = LockerLocation::all();
         $current_school_year = SchoolYear::currentSchoolYear();
         $school_year_selection = SchoolYear::schoolYearSelection();
+        $signees = User::all();
 
-        return view('locker_reports',['school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year,'locations' => $locations ]);
+        return view('locker_reports',['school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year,'locations' => $locations, 'signees' => $signees ]);
     }
 
     public function showLockerStatistics()
     {
+        $signees = User::all();
         $locations = LockerLocation::all();
         $current_school_year = SchoolYear::currentSchoolYear();
         $school_year_selection = SchoolYear::schoolYearSelection();
 
-        return view('locker_statistics',['school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year,'locations' => $locations ]);
+        return view('locker_statistics',['school_year_selection' => $school_year_selection,'current_school_year' => $current_school_year,'locations' => $locations, 'signees' => $signees ]);
     }
 
     public function postLockerReportsTable(Request $request)
     {
-        Locker::reports($request);
+        return Locker::reports($request);
     }
 
     public function postLockerStatistics(Request $request)
     {
-        Locker::statistics($request);
+        return Locker::statistics($request);
     }
 }

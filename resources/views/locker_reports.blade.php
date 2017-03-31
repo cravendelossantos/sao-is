@@ -53,7 +53,7 @@
           School year is not set. Click <a class="alert-link" href="/settings/dates/school-year">here</a> to manage dates.
         </div>
       	@else
-       		<output id="school_year1" name="school_year1" class="form-control" autofocus="" aria-required="true" >
+       		<output id="school_year" name="school_year" class="form-control" autofocus="" aria-required="true" >
 				{{ $current_school_year }}
 			</output>
       @endif
@@ -131,8 +131,8 @@
 
 				<br><br>
 				<div class="col-sm-12 text-center">
-					<h5>Student Affair's Office</h5>
-					<h5>Locker Availability</h5>
+					<h2>Student Affair's Office</h2>
+					<h3>Locker Availability</h3>
 
 
 				</div>
@@ -177,18 +177,16 @@
 
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1">
-					<center><div class="table-responsive">
+					<table class="table table-striped table-bordered table-hover dataTable" id="lockers1-DT" width="100%">
 
 
-							<!-- <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"> -->
-
-								<table class="table table-striped table-bordered table-hover lockers1-DT dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid" style="font-size: 10.2px; width: 100%;">
+							
 									<thead>
 
 										<th>Locker no</th>
 										<th>Floor</th>
 										<th>Building</th>
-										<th>Lessee</th>
+										<!-- <th>Lessee</th> -->
 										<th>Status</th>
 
 
@@ -199,19 +197,34 @@
 
 
 								</table>
-						<!-- 	</div> -->
-</div></center>
+				
 </div>
 </div>
-<br><br><br>
+</div>
+<br><br>
+
 
 <div class="row" style="bottom: -10; margin-left: 10px;">
-	<label class="text-center" >Prepared by:</label><br><br> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<br> {{ Auth::user()->roles->first()->name }} , Student Affairs Office
+
+  <output>Prepared by:</output><br><br>
+   {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<br> {{ Auth::user()->roles->first()->description }} , Student Affairs Office
 </div>
 <br>
+
+@foreach ($signees as $signee)
+  @if ($signee->hasRole('Admin') and $signee->id != Auth::user()->id)
 <div class="row"   style="bottom: -10; margin-left: 10px;">
-	<label class="text-center">Noted by:</label><br><br> Ms. Lourdes C. Reyes <br>Head, Student Affairs Office 
+<output>Noted by:</output><br><br>
+  
+  {{ $signee->first_name }} {{ $signee->last_name }}
+  <br>
+  {{ $signee->roles->first()->description }}, Student Affairs Office
 </div>
+<br>
+@else
+@endif
+
+@endforeach
 
 </div>        </div>
 </div>

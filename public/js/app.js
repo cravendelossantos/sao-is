@@ -343,13 +343,14 @@ var date = new Date();
 var options = {year: "numeric", month: "long", day: "numeric"};
 var newdate = date.toLocaleDateString('en-US', options);
 $('#date').val(newdate);
-$('#schoolyear').val("S.Y." + $('#school_year').val());
+$('#schoolyear').val("S.Y. " + $('#school_year').val());
 
 $('#print').click(function(e){
-
+	
 	var content = document.getElementById('report_content').innerHTML;
 
 	document.body.innerHTML = content;
+	
 	window.print();
 	window.location.reload();
 	e.preventDefault();

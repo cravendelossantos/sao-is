@@ -162,7 +162,7 @@ class ReportViolationController extends Controller
    
     public function showOffenseNo(Request $request)
     {
-        return ViolationReport::offenseCount();    
+        return ViolationReport::offenseCount($request);    
     }
 
     public function searchViolation(Request $request)

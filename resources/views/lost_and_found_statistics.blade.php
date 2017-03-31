@@ -129,9 +129,8 @@
 
                                       <br><br>
                                       <div class="col-sm-12 text-center">
-                                        <h5>Student Affair's Office</h5>
-                                        <h5>Lost and Found Reports and Statistics</h5>
-
+                                <h2>Student Affair's Office</h2>
+          <h3>Locker Availability</h3>
 
                                       </div>
 

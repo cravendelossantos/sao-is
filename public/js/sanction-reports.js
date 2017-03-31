@@ -37,8 +37,8 @@ $(document).ready(function(){
 			"columns" : [
 
 			{data : 'date_reported'},
-
-			{data : 'rv_id'},
+			{data : 'student_information'},
+			{data : 'rv_id'},	
 			{data : 'description'},
 			{data : 'offense_level'},
 			{data : 'offense_no'},

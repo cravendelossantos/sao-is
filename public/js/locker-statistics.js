@@ -8,8 +8,8 @@ $(document).ready(function(){
 		format: 'yyyy-mm-dd',
 	});
 
-	$('.locker-reports-DT').DataTable().destroy();
-	$('.locker-reports-DT').DataTable({
+	
+	var stats_table = $('#locker-reports-DT').DataTable({
 		"bPaginate" : false,
 		"bInfo" :false,
 		"bSort" : false,
@@ -37,12 +37,12 @@ $(document).ready(function(){
 
 
 	});
-});
+
 
 
 
 $('#show_locker_reports').click(function(e){
-
+	stats_table.ajax.reload();
 	if ($('#locker_reports_from').val() != ""  || $('#locker_reports_to').val() != ""){
     // swal("Ooops!", "Please the select dates range", "warning");
     $('#report_from').val("From: " + $('#locker_reports_from').val());
@@ -115,5 +115,7 @@ function drawVisualization() {
 	google.setOnLoadCallback(drawVisualization);
 
 }
+
+});
 
 });
